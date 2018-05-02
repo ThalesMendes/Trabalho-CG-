@@ -1,0 +1,34 @@
+# depslib dependency file v1.0
+1360379515 source:c:\users\thales castro\desktop\cg\shared\glctext.cpp
+	<stdio.h>
+	<string.h>
+	<GL/glut.h>
+	"glcText.h"
+
+1368290960 c:\users\thales castro\desktop\cg\shared\windows\include\gl\glut.h
+	"freeglut_std.h"
+
+1368290960 c:\users\thales castro\desktop\cg\shared\windows\include\gl\freeglut_std.h
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1360379481 c:\users\thales castro\desktop\cg\shared\glctext.h
+
+1512425195 source:c:\users\thales castro\desktop\cg\src\openglversion.cpp
+	<GL/glew.h>
+	<GL/glut.h>
+	<iostream>
+	"glcText.h"
+
+1272402996 c:\users\thales castro\desktop\cg\shared\windows\include\gl\glew.h
+	<stddef.h>
+	<inttypes.h>
+	<stdint.h>
+	<inttypes.h>
+	<OpenGL/glu.h>
+	<GL/glu.h>
+
