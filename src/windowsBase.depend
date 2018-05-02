@@ -107,3 +107,34 @@
 	<string.h>
 	<assert.h>
 
+1512580919 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\glcwavefrontobject.cpp
+	"glcWavefrontObject.h"
+	<math.h>
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<assert.h>
+
+1525201577 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\glcwavefrontobject.h
+	<math.h>
+	<stdio.h>
+	<GL/glut.h>
+
+1368290960 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\windows\include\gl\glut.h
+	"freeglut_std.h"
+
+1368290960 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\windows\include\gl\freeglut_std.h
+	<windows.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glu.h>
+	<stdlib.h>
+
+1525201451 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\objviewer.cpp
+	<iostream>
+	<stdio.h>
+	<ctype.h>
+	<string.h>
+	"glcWavefrontObject.h"
+
