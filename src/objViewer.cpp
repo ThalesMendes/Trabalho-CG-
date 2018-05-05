@@ -151,7 +151,8 @@ void display(void)
     objectManager->SelectObject(selected);
     objectManager->SetShadingMode(selectedShading); // Possible values: FLAT_SHADING e SMOOTH_SHADING
     objectManager->SetRenderMode(selectedRender);     // Possible values: USE_COLOR, USE_MATERIAL, USE_TEXTURE (not available in this example)
-    objectManager->Draw();
+    //objectManager->Draw();
+    objeto.DesenhaObjeto();
 
     glutSwapBuffers ();
     glutPostRedisplay();
@@ -160,7 +161,7 @@ void display(void)
 
 void init (void)
 {
-    objeto.ReadPly("../data/obj/snowman.ply");
+
     // selecionar cor de fundo (preto)
     glClearColor (0.2, 0.2, 0.2, 0.0);
 
@@ -183,6 +184,9 @@ void init (void)
     // LOAD OBJECTS
     objectManager = new glcWavefrontObject();
     objectManager->SetNumberOfObjects(NUM_OBJECTS);
+
+    objeto.LerPly("../data/obj/cow.ply");
+
     for(int i = 0; i < NUM_OBJECTS; i++)
     {
         objectManager->SelectObject(i);

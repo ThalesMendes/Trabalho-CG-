@@ -2,6 +2,7 @@
 #define OBJETO_H
 #include "glcWavefrontObject.h"
 #include <string>
+#include <GL/glut.h>
 
 typedef struct{
     float x;
@@ -10,16 +11,20 @@ typedef struct{
     float nx;
     float ny;
     float nz;
-}Pontos;
+}Vertice;
 
 class Objeto
 {
     public:
         Objeto();
         virtual ~Objeto();
-        void ReadPly(char *arquivo);
+        void LerPly(char *arquivo);
+        void DesenhaObjeto();
     private:
-        Pontos *pontos;
+        Vertice *vertices;
+        int *faces;
+        int num_vertices;
+        int num_faces;
 };
 
 #endif // OBJETO_H

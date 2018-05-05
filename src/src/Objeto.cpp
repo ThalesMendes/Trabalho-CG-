@@ -1,6 +1,7 @@
 #include "Objeto.h"
 #include <iostream>
-
+#define VAZIO -1
+#define NUM_COLUNAS 5
 Objeto::Objeto()
 {
 
@@ -13,7 +14,7 @@ Objeto::~Objeto()
 
 
 
-void Objeto::ReadPly(char *arquivo){
+void Objeto::LerPly(char *arquivo){
 
     //abrindo o arquivo
     FILE *file = fopen(arquivo, "r");
@@ -21,6 +22,7 @@ void Objeto::ReadPly(char *arquivo){
 
     if(!file){
         printf("ERRO NA LEITURA DO ARQUIVO");
+        return;
     }
 
     //contador para saber se estou na terceira palavra, que é o numero que eu quero
@@ -30,10 +32,9 @@ void Objeto::ReadPly(char *arquivo){
     int vertice_face = 0;
 
     //o numero total de vertices e faces
-    int num_vertices;
-    int num_faces;
+
     int cont_vertices = 0;
-    int cont_faces = 0;
+    int cont_faces = -1;
 
     //Indica em qual palavra estou na linha
     int indice_linha = 0;
@@ -75,31 +76,50 @@ void Objeto::ReadPly(char *arquivo){
             num_propriedades++;
         }
 
-        this->pontos = new Pontos[num_vertices];
+        this->vertices = new Vertice[this->num_vertices];
+        this->faces = new int[this->num_faces*5];
 
         //se estou na linha do "end_header", começo a ler as faces e vertices
         if(buff[0] == 'e' && buff[1] == 'n'){
 
-            float *vetor_vertices = new float[num_vertices*num_propriedades];
-
-            int pos_linha = 0;
-
+            //aqui começa a "releitura" do arquivo
             while(fgets(buff, sizeof(buff), file)){
 
-                if(cont_vertices < num_vertices){
+                //se ainda nao li todos os vertices:
+                if(cont_vertices < this->num_vertices){
 
                     if(num_propriedades > 6)
-                        sscanf(buff, "%f %f %f", &pontos[cont_vertices].x, &pontos[cont_vertices].y, &pontos[cont_vertices].z);
+                        sscanf(buff, "%f %f %f", &vertices[cont_vertices].x, &vertices[cont_vertices].y, &vertices[cont_vertices].z);
                     else
-                        sscanf(buff, "%f %f %f %f %f %f", &pontos[cont_vertices].x, &pontos[cont_vertices].y,
-                               &pontos[cont_vertices].z, &pontos[cont_vertices].nx, &pontos[cont_vertices].ny,
-                               &pontos[cont_vertices].nz );
+                        sscanf(buff, "%f %f %f %f %f %f", &vertices[cont_vertices].x, &vertices[cont_vertices].y,
+                               &vertices[cont_vertices].z, &vertices[cont_vertices].nx, &vertices[cont_vertices].ny,
+                               &vertices[cont_vertices].nz );
 
                     cont_vertices++;
 
                 }
 
+
+                //se li todos os vertices mas ainda nao li todas as facez:
                 if(cont_vertices >= num_vertices && cont_faces < num_faces){
+
+                    int num_vertices_por_face;
+                    int face1, face2, face3;
+                    sscanf(buff, "%d", &num_vertices_por_face);
+
+                    if(num_vertices_por_face == 4){
+                        sscanf(buff, "%d %d %d %d %d", &faces[cont_faces*NUM_COLUNAS + 0], &faces[cont_faces*NUM_COLUNAS + 1],
+                               &faces[cont_faces*NUM_COLUNAS + 2], &faces[cont_faces*NUM_COLUNAS + 3], &faces[cont_faces*NUM_COLUNAS + 4]);
+                    }
+
+                    if(num_vertices_por_face == 3){
+                        sscanf(buff, "%d %d %d %d", &faces[cont_faces*NUM_COLUNAS + 0], &faces[cont_faces*NUM_COLUNAS + 1],
+                               &faces[cont_faces*NUM_COLUNAS + 2], &faces[cont_faces*NUM_COLUNAS + 3]);
+
+                        faces[cont_faces*NUM_COLUNAS + 4] = VAZIO;
+                    }
+
+                cont_faces++;
 
                 }
             }
@@ -109,7 +129,28 @@ void Objeto::ReadPly(char *arquivo){
 
         }
 
-
     }
+}
+
+void Objeto::DesenhaObjeto(){
+
+        for(int i = 0; i < this->num_faces; i++ ){
+            glBegin(GL_POLYGON);
+            if(faces[i*NUM_COLUNAS + 0] == 4){
+                for(int j = 1; j < 5; j++){
+                    glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
+                               vertices[faces[i*NUM_COLUNAS+j]].z);
+                    }
+            }
+
+            if(faces[i*NUM_COLUNAS + 0] == 3){
+                for(int j = 1; j < 4; j++){
+                    glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
+                               vertices[faces[i*NUM_COLUNAS+j]].z);
+                }
+            }
+            glEnd();
+        }
 
 }
+
