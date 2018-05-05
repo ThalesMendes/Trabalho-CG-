@@ -16,6 +16,7 @@
 				<Compiler>
 					<Add option="-g" />
 					<Add directory="include" />
+					<Add directory="src/include" />
 				</Compiler>
 			</Target>
 		</Build>
@@ -41,7 +42,9 @@
 		</Linker>
 		<Unit filename="../shared/glcWavefrontObject.cpp" />
 		<Unit filename="../shared/glcWavefrontObject.h" />
+		<Unit filename="include/Objeto.h" />
 		<Unit filename="objViewer.cpp" />
+		<Unit filename="src/Objeto.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

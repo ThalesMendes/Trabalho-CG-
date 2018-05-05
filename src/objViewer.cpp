@@ -13,10 +13,13 @@
 #include <ctype.h>
 #include <string.h>
 #include "glcWavefrontObject.h"
+#include "Objeto.h"
 
 #define NUM_OBJECTS 7
 
 using namespace std;
+
+Objeto objeto;
 
 char objectFiles[NUM_OBJECTS][50] =
 {
@@ -157,6 +160,7 @@ void display(void)
 
 void init (void)
 {
+    objeto.ReadPly("../data/obj/snowman.ply");
     // selecionar cor de fundo (preto)
     glClearColor (0.2, 0.2, 0.2, 0.0);
 
@@ -193,6 +197,10 @@ void init (void)
 
 int main(int argc, char** argv)
 {
+
+    //objectManager->ReadPly("../data/obj/snowman.ply");
+    printf("\n\n\n");
+
     showMenu();
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGB);
@@ -206,6 +214,8 @@ int main(int argc, char** argv)
     glutReshapeFunc( reshape );
     glutDisplayFunc(display);
     glutMainLoop();
+
+
 
     return 0;
 }

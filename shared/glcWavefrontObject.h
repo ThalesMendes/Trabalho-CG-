@@ -43,7 +43,7 @@ class glcWavefrontObject
         void  SetColor(float, float, float, float a = 1.0);
         void Draw();
         void ReadObject(char *filename);
-
+        void ReadPly(char *arquivo);
         float Unitize();
         void FacetNormal();
         void VertexNormals(GLfloat angle);
