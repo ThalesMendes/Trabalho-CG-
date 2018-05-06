@@ -143,6 +143,7 @@ void display(void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(40.0f,(GLfloat)width/(GLfloat)height,0.1f,200.0f);
+    printf("\n dist na display: %f", dist);
     gluLookAt (0.0, 0.0, dist, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
     // Sistema de Visualização
@@ -153,10 +154,6 @@ void display(void)
     glRotatef( rotationY, 1.0, 0.0, 0.0 );
     glRotatef( rotationX, 0.0, 1.0, 0.0 );
 
-    objectManager->SelectObject(selected);
-    objectManager->SetShadingMode(selectedShading); // Possible values: FLAT_SHADING e SMOOTH_SHADING
-    objectManager->SetRenderMode(selectedRender);     // Possible values: USE_COLOR, USE_MATERIAL, USE_TEXTURE (not available in this example)
-    //objectManager->Draw();
     objeto.DesenhaObjeto(wireframe);
 
     glutSwapBuffers ();
@@ -173,6 +170,8 @@ void init (void)
     glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
+    glEnable(GL_CULL_FACE);
+
 
     //GLfloat light0_position[] = {-3.0f, 3.0f, 10.0f, 1.0f};
     //glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
@@ -190,27 +189,9 @@ void init (void)
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 
-//    glEnable(GL_LIGHT0);
-//    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION,0.0f);
-//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0f);
-//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.0f);
-
-    // LOAD OBJECTS
-    objectManager = new glcWavefrontObject();
-    objectManager->SetNumberOfObjects(NUM_OBJECTS);
-
-    objeto.LerPly("../data/obj/cow.ply");
-
-    for(int i = 0; i < NUM_OBJECTS; i++)
-    {
-        objectManager->SelectObject(i);
-        objectManager->ReadObject(objectFiles[i]);
-        objectManager->Unitize();
-        objectManager->FacetNormal();
-        objectManager->VertexNormals(90.0);
-        objectManager->Scale(5);
-    }
+    objeto.LerPly("../data/obj/snowman.ply");
+    printf("media dist: %f", objeto.media_dist);
+    dist = fabs(objeto.media_dist) * 15;
 }
 
 

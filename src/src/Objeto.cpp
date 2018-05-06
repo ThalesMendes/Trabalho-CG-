@@ -4,6 +4,7 @@
 #define NUM_COLUNAS 5
 Objeto::Objeto()
 {
+    sum_dist = 0;
 
 }
 
@@ -90,11 +91,14 @@ void Objeto::LerPly(char *arquivo){
 
                     if(num_propriedades > 6)
                         sscanf(buff, "%f %f %f", &vertices[cont_vertices].x, &vertices[cont_vertices].y, &vertices[cont_vertices].z);
+
+
                     else
                         sscanf(buff, "%f %f %f %f %f %f", &vertices[cont_vertices].x, &vertices[cont_vertices].y,
                                &vertices[cont_vertices].z, &vertices[cont_vertices].nx, &vertices[cont_vertices].ny,
                                &vertices[cont_vertices].nz );
 
+                    sum_dist += vertices[cont_vertices].z;
                     cont_vertices++;
 
                 }
@@ -123,6 +127,8 @@ void Objeto::LerPly(char *arquivo){
 
                 }
             }
+
+            media_dist = sum_dist / num_vertices;
 
             fclose(file);
             return;
@@ -182,8 +188,10 @@ void Objeto::DesenhaObjeto(bool wireframe){
     Vertice vertice_normal;
     wireframe? primitiva = GL_LINE_LOOP : primitiva = GL_POLYGON;
 
+    glTranslatef(0, 0, 0);
 
     for(int i = 0; i < this->num_faces; i++ ){
+
         glBegin(primitiva);
 
         if(faces[i*NUM_COLUNAS + 0] == 4){
@@ -191,6 +199,7 @@ void Objeto::DesenhaObjeto(bool wireframe){
             glNormal3f(vertices[faces[i*NUM_COLUNAS+1]].nx, vertices[faces[i*NUM_COLUNAS+1]].ny, vertices[faces[i*NUM_COLUNAS+1]].nz);
 
             for(int j = 1; j < 5; j++){
+
                 glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
                            vertices[faces[i*NUM_COLUNAS+j]].z);
                 }
