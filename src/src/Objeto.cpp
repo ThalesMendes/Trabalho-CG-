@@ -132,25 +132,84 @@ void Objeto::LerPly(char *arquivo){
     }
 }
 
-void Objeto::DesenhaObjeto(){
+void Objeto::SetMaterial(){
 
-        for(int i = 0; i < this->num_faces; i++ ){
-            glBegin(GL_POLYGON);
-            if(faces[i*NUM_COLUNAS + 0] == 4){
-                for(int j = 1; j < 5; j++){
-                    glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
-                               vertices[faces[i*NUM_COLUNAS+j]].z);
-                    }
-            }
+   // Material do objeto (neste caso, ruby). Parametros em RGBA
+   GLfloat objeto_ambient[]   = { .1745, .01175, .01175, 1.0 };
+   GLfloat objeto_difusa[]    = { .61424, .04136, .04136, 1.0 };
+   GLfloat objeto_especular[] = { .727811, .626959, .626959, 1.0 };
+   GLfloat objeto_brilho[]    = { 90.0f };
 
-            if(faces[i*NUM_COLUNAS + 0] == 3){
-                for(int j = 1; j < 4; j++){
-                    glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
-                               vertices[faces[i*NUM_COLUNAS+j]].z);
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
+void Objeto::CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn) // Vertice e numero de vertices da nova
+{
+    Vertice v1_temp, v2_temp;
+	double len;
+
+   /* Encontra vetor v1 */
+   v1_temp.x = v2.x - v1.x;
+   v1_temp.y = v2.y - v1.y;
+   v1_temp.z = v2.z - v1.z;
+
+   /* Encontra vetor v2 */
+   v2_temp.x = v3.x - v1.x;
+   v2_temp.y = v3.y - v1.y;
+   v2_temp.z = v3.z - v1.z;
+
+   /* Calculo do produto vetorial de v1 e v2 */
+   vn->x = (v1_temp.y * v2_temp.z) - (v1_temp.z * v2_temp.y);
+   vn->y = (v1_temp.z * v2_temp.x) - (v1_temp.x * v2_temp.z);
+   vn->z = (v1_temp.x * v2_temp.y) - (v1_temp.y * v2_temp.x);
+
+   /* normalizacao de n */
+   len = sqrt(pow(vn->x,2) + pow(vn->y,2) + pow(vn->z,2));
+
+	vn->x /= len;
+	vn->y /= len;
+	vn->z /= len;
+}
+
+void Objeto::DesenhaObjeto(bool wireframe){
+
+    SetMaterial();
+    int primitiva;
+    Vertice vertice_normal;
+    wireframe? primitiva = GL_LINE_LOOP : primitiva = GL_POLYGON;
+
+
+    for(int i = 0; i < this->num_faces; i++ ){
+        glBegin(primitiva);
+
+        if(faces[i*NUM_COLUNAS + 0] == 4){
+
+            glNormal3f(vertices[faces[i*NUM_COLUNAS+1]].nx, vertices[faces[i*NUM_COLUNAS+1]].ny, vertices[faces[i*NUM_COLUNAS+1]].nz);
+
+            for(int j = 1; j < 5; j++){
+                glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
+                           vertices[faces[i*NUM_COLUNAS+j]].z);
                 }
-            }
-            glEnd();
         }
+
+        if(faces[i*NUM_COLUNAS + 0] == 3){
+
+            CalculaNormal(vertices[faces[i*NUM_COLUNAS+1]], vertices[faces[i*NUM_COLUNAS+2]], vertices[faces[i*NUM_COLUNAS+3]],
+                &vertice_normal);
+            glNormal3f(vertice_normal.x, vertice_normal.y, vertice_normal.z);
+
+            for(int j = 1; j < 4; j++){
+                glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
+                           vertices[faces[i*NUM_COLUNAS+j]].z);
+            }
+        }
+
+        glEnd();
+    }
 
 }
 

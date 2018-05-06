@@ -19,7 +19,9 @@ class Objeto
         Objeto();
         virtual ~Objeto();
         void LerPly(char *arquivo);
-        void DesenhaObjeto();
+        void DesenhaObjeto(bool wireframe);
+        void SetMaterial();
+        void CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn);
     private:
         Vertice *vertices;
         int *faces;

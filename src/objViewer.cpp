@@ -20,6 +20,7 @@
 using namespace std;
 
 Objeto objeto;
+bool wireframe = false;
 
 char objectFiles[NUM_OBJECTS][50] =
 {
@@ -94,6 +95,10 @@ void keyboard(unsigned char key, int x, int y)
         case 'r':
             selectedRender = (selectedRender == USE_MATERIAL) ? USE_COLOR : USE_MATERIAL;
         break;
+        case 'w':
+            wireframe = !wireframe;
+        break;
+
 
     }
     glutPostRedisplay();
@@ -152,7 +157,7 @@ void display(void)
     objectManager->SetShadingMode(selectedShading); // Possible values: FLAT_SHADING e SMOOTH_SHADING
     objectManager->SetRenderMode(selectedRender);     // Possible values: USE_COLOR, USE_MATERIAL, USE_TEXTURE (not available in this example)
     //objectManager->Draw();
-    objeto.DesenhaObjeto();
+    objeto.DesenhaObjeto(wireframe);
 
     glutSwapBuffers ();
     glutPostRedisplay();
@@ -164,22 +169,32 @@ void init (void)
 
     // selecionar cor de fundo (preto)
     glClearColor (0.2, 0.2, 0.2, 0.0);
-
+    glShadeModel (GL_SMOOTH);
     glEnable(GL_LIGHT0);
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
-    GLfloat light0_position[] = {-3.0f, 3.0f, 10.0f, 1.0f};
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+    //GLfloat light0_position[] = {-3.0f, 3.0f, 10.0f, 1.0f};
+    //glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+
+    GLfloat cor_luz[]  = { 1.0, 1.0, 1.0, 1.0};
+   // Posicao da fonte de luz. Ultimo parametro define se a luz sera direcional (0.0) ou tera uma posicional (1.0)
+    GLfloat posicao_luz[] = { 50.0, 50.0, 50.0, 1.0};
+
+   // Define parametros da luz
+    glLightfv(GL_LIGHT0, GL_AMBIENT, cor_luz);
+    glLightfv(GL_LIGHT0, GL_DIFFUSE, cor_luz);
+    glLightfv(GL_LIGHT0, GL_SPECULAR, cor_luz);
+    glLightfv(GL_LIGHT0, GL_POSITION, posicao_luz);
 
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 
-    glEnable(GL_LIGHT0);
-    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
-    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION,0.0f);
-    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0f);
-    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.0f);
+//    glEnable(GL_LIGHT0);
+//    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION,0.0f);
+//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0f);
+//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.0f);
 
     // LOAD OBJECTS
     objectManager = new glcWavefrontObject();
@@ -218,8 +233,6 @@ int main(int argc, char** argv)
     glutReshapeFunc( reshape );
     glutDisplayFunc(display);
     glutMainLoop();
-
-
 
     return 0;
 }

@@ -131,7 +131,7 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1525553943 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\objviewer.cpp
+1525615562 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\objviewer.cpp
 	<iostream>
 	<stdio.h>
 	<ctype.h>
@@ -144,11 +144,11 @@
 
 1525456564 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\leitorply.h
 
-1525553999 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
+1525615541 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
 	"Objeto.h"
 	<iostream>
 
-1525552691 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\objeto.h
+1525615296 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\objeto.h
 	"glcWavefrontObject.h"
 	<string>
 	<GL/glut.h>
