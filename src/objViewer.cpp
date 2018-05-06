@@ -21,6 +21,7 @@ using namespace std;
 
 Objeto objeto;
 bool wireframe = false;
+bool fullscreen = false;
 
 char objectFiles[NUM_OBJECTS][50] =
 {
@@ -98,8 +99,16 @@ void keyboard(unsigned char key, int x, int y)
         case 'w':
             wireframe = !wireframe;
         break;
-
-
+        case 'f':
+            if(fullscreen){
+                fullscreen = false;
+                glutReshapeWindow(width,height);
+            }
+            else{
+                fullscreen = true;
+                glutFullScreen();
+            }
+        break;
     }
     glutPostRedisplay();
 }
@@ -200,7 +209,7 @@ void init (void)
     objectManager = new glcWavefrontObject();
     objectManager->SetNumberOfObjects(NUM_OBJECTS);
 
-    objeto.LerPly("../data/obj/cow.ply");
+    objeto.LerPly("../data/obj/snowman.ply");
 
     for(int i = 0; i < NUM_OBJECTS; i++)
     {
@@ -224,7 +233,7 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGB);
     glutInitWindowSize (width, height);
-    glutInitWindowPosition (100, 100);
+    glutInitWindowPosition (0, 0);
     glutCreateWindow ("Object Viewer");
     init ();
     glutMouseFunc( mouse );
