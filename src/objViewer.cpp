@@ -9,29 +9,31 @@
 
 
 #include <iostream>
+#include <string>
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
+#include <sstream>
 #include "glcWavefrontObject.h"
 #include "Objeto.h"
 
 #define NUM_OBJECTS 7
 
 using namespace std;
+string titulo_janela;
 
-Objeto objeto;
+int selecionado = 0;
+Objeto objetos[5];
 bool wireframe = false;
 bool fullscreen = false;
 
-char objectFiles[NUM_OBJECTS][50] =
+char objectFiles[5][50] =
 {
-    "../data/obj/al.obj",
-    "../data/obj/dolphins.obj",
-    "../data/obj/f-16.obj",
-    "../data/obj/flowers.obj",
-    "../data/obj/porsche.obj",
-    "../data/obj/rose+vase.obj",
-    "../data/obj/soccerball.obj"
+    "../data/obj/snowman.ply",
+    "../data/obj/bunny.ply",
+    "../data/obj/budda.ply",
+    "../data/obj/dragon.ply",
+     "../data/obj/cow.ply"
 };
 
 typedef struct
@@ -109,6 +111,21 @@ void keyboard(unsigned char key, int x, int y)
                 glutFullScreen();
             }
         break;
+        case '1':
+            selecionado = 0;
+        break;
+        case '2':
+            selecionado = 1;
+        break;
+        case '3':
+            selecionado = 2;
+        break;
+        case '4':
+            selecionado = 3;
+        break;
+        case '5':
+            selecionado = 4;
+        break;
     }
     glutPostRedisplay();
 }
@@ -162,7 +179,7 @@ void display(void)
     glRotatef( rotationY, 1.0, 0.0, 0.0 );
     glRotatef( rotationX, 0.0, 1.0, 0.0 );
 
-    objeto.DesenhaObjeto(wireframe);
+    objetos[selecionado].DesenhaObjeto(wireframe);
 
     glutSwapBuffers ();
     glutPostRedisplay();
@@ -197,8 +214,13 @@ void init (void)
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 
+    for(int i = 0; i < 5; i++)
+        objetos[i].LerPly(objectFiles[i]);
 
-    objeto.LerPly("../data/obj/cow.ply");
+    stringstream ss;
+    ss << objetos[selecionado].num_faces;
+    titulo_janela = "Numero de faces: " + ss.str() ;
+    glutSetWindowTitle(titulo_janela.c_str());
 
 }
 
@@ -208,7 +230,6 @@ int main(int argc, char** argv)
 
     //objectManager->ReadPly("../data/obj/snowman.ply");
     printf("\n\n\n");
-
     showMenu();
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGB);

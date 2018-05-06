@@ -25,12 +25,12 @@ class Objeto
         Vertice v_max;
         Vertice v_min;
         float media_dist;
+        int num_faces;
     private:
         Vertice *vertices;
 
         int *faces;
         int num_vertices;
-        int num_faces;
         float sum_dist;
 
 };
