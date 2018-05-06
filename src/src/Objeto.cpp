@@ -103,7 +103,7 @@ void Objeto::LerPly(char *arquivo){
 
                 }
 
-
+                //kek
                 //se li todos os vertices mas ainda nao li todas as facez:
                 if(cont_vertices >= num_vertices && cont_faces < num_faces){
 
