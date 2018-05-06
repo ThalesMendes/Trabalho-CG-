@@ -21,6 +21,7 @@ using namespace std;
 
 Objeto objeto;
 bool wireframe = false;
+bool fullscreen = false;
 
 char objectFiles[NUM_OBJECTS][50] =
 {
@@ -98,8 +99,16 @@ void keyboard(unsigned char key, int x, int y)
         case 'w':
             wireframe = !wireframe;
         break;
-
-
+        case 'f':
+            if(fullscreen){
+                fullscreen = false;
+                glutReshapeWindow(width,height);
+            }
+            else{
+                fullscreen = true;
+                glutFullScreen();
+            }
+        break;
     }
     glutPostRedisplay();
 }
@@ -189,9 +198,33 @@ void init (void)
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 
+<<<<<<< HEAD
     objeto.LerPly("../data/obj/snowman.ply");
     printf("media dist: %f", objeto.media_dist);
     dist = fabs(objeto.media_dist) * 15;
+=======
+//    glEnable(GL_LIGHT0);
+//    glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
+//    glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION,0.0f);
+//    glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.0f);
+//    glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.0f);
+
+    // LOAD OBJECTS
+    objectManager = new glcWavefrontObject();
+    objectManager->SetNumberOfObjects(NUM_OBJECTS);
+
+    objeto.LerPly("../data/obj/snowman.ply");
+
+    for(int i = 0; i < NUM_OBJECTS; i++)
+    {
+        objectManager->SelectObject(i);
+        objectManager->ReadObject(objectFiles[i]);
+        objectManager->Unitize();
+        objectManager->FacetNormal();
+        objectManager->VertexNormals(90.0);
+        objectManager->Scale(5);
+    }
+>>>>>>> 9b0128eb8b691cecb6e37941af9b1fa8f11f4090
 }
 
 
@@ -205,7 +238,7 @@ int main(int argc, char** argv)
     glutInit(&argc, argv);
     glutInitDisplayMode (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGB);
     glutInitWindowSize (width, height);
-    glutInitWindowPosition (100, 100);
+    glutInitWindowPosition (0, 0);
     glutCreateWindow ("Object Viewer");
     init ();
     glutMouseFunc( mouse );
