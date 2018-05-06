@@ -102,7 +102,7 @@ void keyboard(unsigned char key, int x, int y)
         case 'f':
             if(fullscreen){
                 fullscreen = false;
-                glutReshapeWindow(width,height);
+                glutReshapeWindow(800,800);
             }
             else{
                 fullscreen = true;
@@ -152,7 +152,6 @@ void display(void)
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluPerspective(40.0f,(GLfloat)width/(GLfloat)height,0.1f,200.0f);
-    printf("\n dist na display: %f", dist);
     gluLookAt (0.0, 0.0, dist, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
 
     // Sistema de Visualização
@@ -199,12 +198,7 @@ void init (void)
     glEnable(GL_DEPTH_TEST);
 
 
-    objeto.LerPly("../data/obj/snowman.ply");
-    printf("media dist: %f", objeto.media_dist);
-    dist = fabs(objeto.media_dist) * 15;
-
-    objeto.LerPly("../data/obj/snowman.ply");
-
+    objeto.LerPly("../data/obj/cow.ply");
 
 }
 

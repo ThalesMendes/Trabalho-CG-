@@ -22,9 +22,12 @@ class Objeto
         void DesenhaObjeto(bool wireframe);
         void SetMaterial();
         void CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn);
+        Vertice v_max;
+        Vertice v_min;
         float media_dist;
     private:
         Vertice *vertices;
+
         int *faces;
         int num_vertices;
         int num_faces;

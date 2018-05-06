@@ -98,7 +98,30 @@ void Objeto::LerPly(char *arquivo){
                                &vertices[cont_vertices].z, &vertices[cont_vertices].nx, &vertices[cont_vertices].ny,
                                &vertices[cont_vertices].nz );
 
-                    sum_dist += vertices[cont_vertices].z;
+                    if(cont_vertices == 0){
+                        v_min.x = vertices[cont_vertices].x;
+                        v_min.y = vertices[cont_vertices].y;
+                        v_min.z = vertices[cont_vertices].z;
+
+                        v_max.x = vertices[cont_vertices].x;
+                        v_max.y = vertices[cont_vertices].y;
+                        v_max.z = vertices[cont_vertices].z;
+                    }
+                    else{
+                        if(v_min.x > vertices[cont_vertices].x)
+                            v_min.x = vertices[cont_vertices].x;
+                        if(v_min.y > vertices[cont_vertices].y)
+                            v_min.y = vertices[cont_vertices].y;
+                        if(v_min.z > vertices[cont_vertices].z)
+                            v_min.z = vertices[cont_vertices].z;
+
+                        if(v_max.x < vertices[cont_vertices].x)
+                            v_max.x = vertices[cont_vertices].x;
+                        if(v_max.y < vertices[cont_vertices].y)
+                            v_max.y = vertices[cont_vertices].y;
+                        if(v_max.z < vertices[cont_vertices].z)
+                            v_max.z = vertices[cont_vertices].z;
+                    }
                     cont_vertices++;
 
                 }
@@ -128,8 +151,7 @@ void Objeto::LerPly(char *arquivo){
                 }
             }
 
-            media_dist = sum_dist / num_vertices;
-
+            printf("x max: %f   x min: %f", v_max.x, v_min.x);
             fclose(file);
             return;
 
@@ -188,7 +210,7 @@ void Objeto::DesenhaObjeto(bool wireframe){
     Vertice vertice_normal;
     wireframe? primitiva = GL_LINE_LOOP : primitiva = GL_POLYGON;
 
-    glTranslatef(0, 0, 0);
+    glTranslatef(-(v_max.x + v_min.x)/2.0, -(v_max.y + v_min.y)/2.0, -(v_max.z + v_min.z)/2.0);
 
     for(int i = 0; i < this->num_faces; i++ ){
 
