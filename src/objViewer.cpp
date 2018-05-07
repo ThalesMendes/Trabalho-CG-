@@ -113,19 +113,25 @@ void keyboard(unsigned char key, int x, int y)
         break;
         case '1':
             selecionado = 0;
+            dist = objetos[selecionado].v_max.z + 1 ;
         break;
         case '2':
             selecionado = 1;
+            dist = objetos[selecionado].v_max.z + 2 ;
         break;
         case '3':
             selecionado = 2;
+            dist = objetos[selecionado].v_max.z + 2 ;
         break;
         case '4':
             selecionado = 3;
+            dist = objetos[selecionado].v_max.z + 2;
         break;
         case '5':
             selecionado = 4;
+            dist = objetos[selecionado].v_max.z + 1 ;
         break;
+
     }
     glutPostRedisplay();
 }
@@ -183,6 +189,12 @@ void display(void)
 
     glutSwapBuffers ();
     glutPostRedisplay();
+
+    stringstream ss;
+    ss << objetos[selecionado].num_faces;
+    titulo_janela = "Numero de faces: " + ss.str() ;
+    glutSetWindowTitle(titulo_janela.c_str());
+
 }
 
 
@@ -217,10 +229,6 @@ void init (void)
     for(int i = 0; i < 5; i++)
         objetos[i].LerPly(objectFiles[i]);
 
-    stringstream ss;
-    ss << objetos[selecionado].num_faces;
-    titulo_janela = "Numero de faces: " + ss.str() ;
-    glutSetWindowTitle(titulo_janela.c_str());
 
 }
 
