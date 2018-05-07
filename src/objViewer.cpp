@@ -17,10 +17,17 @@
 #include "glcWavefrontObject.h"
 #include "Objeto.h"
 
+<<<<<<< HEAD
+=======
+#define NUM_OBJECTS 5
+
+>>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
 using namespace std;
 string titulo_janela;
 
-int selecionado = 0;
+float valor_zoom = 0.5;
+float max_zoom = 10;
+int selecionado = 4;
 Objeto objetos[5];
 bool wireframe = false;
 bool fullscreen = false;
@@ -47,7 +54,7 @@ glcWavefrontObject *objectManager = NULL;
 int selected = 0;
 int selectedShading = SMOOTH_SHADING;
 int selectedRender = USE_MATERIAL;
-float dist = 20.0;
+float dist = 11.0;
 int width = 800;
 int height = 800;
 float rotationX = 0.0, rotationY = 0.0;
@@ -61,9 +68,14 @@ void showMenu()
     cout << "Mouse\n" << endl;
     cout << "* Click to move the object and scroll to zoom in/out." << endl;
     cout << "Keyboard" << endl;
+<<<<<<< HEAD
     cout << "* 1 to 5 to change objects" << endl;
     cout << "* 'w' to wireframe on/off" << endl;
     cout << "* 'f' to fullscreen on/off" << endl;
+=======
+    cout << "* 1 to 5" << " to change objects" << endl;
+    cout << "* 'w' to set wireframe on/off" << endl;
+>>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
     cout << "* ESC - Para sair" << endl;
 }
 
@@ -99,22 +111,48 @@ void keyboard(unsigned char key, int x, int y)
         case '1':
             selecionado = 0;
             dist = objetos[selecionado].v_max.z + 10;
+<<<<<<< HEAD
         break;
         case '2':
             selecionado = 1;
             dist = objetos[selecionado].v_max.z + 0.5;
+=======
+            max_zoom = 10;
+            valor_zoom = 0.5;
+        break;
+        case '2':
+            selecionado = 1;
+            dist = objetos[selecionado].v_max.z + 0.8;
+            max_zoom = 0.7;
+            valor_zoom = 0.1;
+>>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
         break;
         case '3':
             selecionado = 2;
             dist = objetos[selecionado].v_max.z + 0.5;
+<<<<<<< HEAD
+=======
+            max_zoom = 0.5;
+            valor_zoom = 0.05;
+>>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
         break;
         case '4':
             selecionado = 3;
             dist = objetos[selecionado].v_max.z + 0.5;
+<<<<<<< HEAD
+=======
+            max_zoom = 0.5;
+            valor_zoom = 0.05;
+>>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
         break;
         case '5':
             selecionado = 4;
             dist = objetos[selecionado].v_max.z + 10;
+<<<<<<< HEAD
+=======
+            max_zoom = 7;
+            valor_zoom = 0.5;
+>>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
         break;
 
     }
@@ -143,11 +181,11 @@ void mouse(int button, int state, int x, int y)
     }
     if(button == 3) // Scroll up
     {
-        if(dist>=5.0)  dist-=1;
+        if(dist>=max_zoom)  dist-=valor_zoom;
     }
     if(button==4)   // Scroll down
     {
-        if(dist<=40.0) dist+=1;
+        if(dist<=40.0) dist+=valor_zoom;
     }
 }
 
@@ -193,7 +231,6 @@ void init (void)
     glEnable(GL_COLOR_MATERIAL);
     glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
     glEnable(GL_CULL_FACE);
-
 
     //GLfloat light0_position[] = {-3.0f, 3.0f, 10.0f, 1.0f};
     //glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
