@@ -155,7 +155,7 @@
 	<string>
 	<GL/glut.h>
 
-1525625659 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\glcwavefrontobject.cpp
+1525734077 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\glcwavefrontobject.cpp
 	"glcWavefrontObject.h"
 	<math.h>
 	<stdio.h>
@@ -163,15 +163,15 @@
 	<string.h>
 	<assert.h>
 
-1525625659 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\glcwavefrontobject.h
+1525734077 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\glcwavefrontobject.h
 	<math.h>
 	<stdio.h>
 	<GL/glut.h>
 
-1525625659 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\windows\include\gl\glut.h
+1525734077 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\windows\include\gl\glut.h
 	"freeglut_std.h"
 
-1525625659 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\windows\include\gl\freeglut_std.h
+1525734077 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\windows\include\gl\freeglut_std.h
 	<windows.h>
 	<OpenGL/gl.h>
 	<OpenGL/glu.h>
@@ -179,20 +179,22 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1525627229 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\objviewer.cpp
+1525735660 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\objviewer.cpp
 	<iostream>
+	<string>
 	<stdio.h>
 	<ctype.h>
 	<string.h>
+	<sstream>
 	"glcWavefrontObject.h"
 	"Objeto.h"
 
-1525625659 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\include\objeto.h
+1525735929 c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\include\objeto.h
 	"glcWavefrontObject.h"
 	<string>
 	<GL/glut.h>
 
-1525630258 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\src\objeto.cpp
+1525734806 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\src\objeto.cpp
 	"Objeto.h"
 	<iostream>
 

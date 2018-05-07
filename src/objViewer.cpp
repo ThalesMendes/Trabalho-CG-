@@ -17,8 +17,6 @@
 #include "glcWavefrontObject.h"
 #include "Objeto.h"
 
-#define NUM_OBJECTS 7
-
 using namespace std;
 string titulo_janela;
 
@@ -63,9 +61,9 @@ void showMenu()
     cout << "Mouse\n" << endl;
     cout << "* Click to move the object and scroll to zoom in/out." << endl;
     cout << "Keyboard" << endl;
-    cout << "* 1 to " << NUM_OBJECTS << " to change objects" << endl;
-    cout << "* 's' to change shading mode (FLAT_SHADING or SMOOTH_SHADING)" << endl;
-    cout << "* 'r' to change render mode (USE_MATERIAL or USE_COLOR)" << endl;
+    cout << "* 1 to 5 to change objects" << endl;
+    cout << "* 'w' to wireframe on/off" << endl;
+    cout << "* 'f' to fullscreen on/off" << endl;
     cout << "* ESC - Para sair" << endl;
 }
 
@@ -80,23 +78,10 @@ void reshape( int w, int h)
 
 void keyboard(unsigned char key, int x, int y)
 {
-    if(isdigit(key))
-    {
-        int val = atoi((const char *) &key);
-        if(val > 0 && val <= NUM_OBJECTS )
-            selected = val-1;
-    }
-
     switch (key)
     {
         case 27 :
             exit(0);
-        break;
-        case 's':
-            selectedShading = (selectedShading == FLAT_SHADING) ? SMOOTH_SHADING : FLAT_SHADING;
-        break;
-        case 'r':
-            selectedRender = (selectedRender == USE_MATERIAL) ? USE_COLOR : USE_MATERIAL;
         break;
         case 'w':
             wireframe = !wireframe;
@@ -113,23 +98,23 @@ void keyboard(unsigned char key, int x, int y)
         break;
         case '1':
             selecionado = 0;
-            dist = objetos[selecionado].v_max.z + 1 ;
+            dist = objetos[selecionado].v_max.z + 10;
         break;
         case '2':
             selecionado = 1;
-            dist = objetos[selecionado].v_max.z + 2 ;
+            dist = objetos[selecionado].v_max.z + 0.5;
         break;
         case '3':
             selecionado = 2;
-            dist = objetos[selecionado].v_max.z + 2 ;
+            dist = objetos[selecionado].v_max.z + 0.5;
         break;
         case '4':
             selecionado = 3;
-            dist = objetos[selecionado].v_max.z + 2;
+            dist = objetos[selecionado].v_max.z + 0.5;
         break;
         case '5':
             selecionado = 4;
-            dist = objetos[selecionado].v_max.z + 1 ;
+            dist = objetos[selecionado].v_max.z + 10;
         break;
 
     }
@@ -185,7 +170,7 @@ void display(void)
     glRotatef( rotationY, 1.0, 0.0, 0.0 );
     glRotatef( rotationX, 0.0, 1.0, 0.0 );
 
-    objetos[selecionado].DesenhaObjeto(wireframe);
+    objetos[selecionado].DesenhaObjeto(wireframe,selecionado);
 
     glutSwapBuffers ();
     glutPostRedisplay();
@@ -228,8 +213,6 @@ void init (void)
 
     for(int i = 0; i < 5; i++)
         objetos[i].LerPly(objectFiles[i]);
-
-
 }
 
 

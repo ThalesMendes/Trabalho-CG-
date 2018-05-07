@@ -19,8 +19,12 @@ class Objeto
         Objeto();
         virtual ~Objeto();
         void LerPly(char *arquivo);
-        void DesenhaObjeto(bool wireframe);
+        void DesenhaObjeto(bool wireframe, int num_objeto);
         void SetMaterial();
+        void SetMaterial2();
+        void SetMaterial3();
+        void SetMaterial4();
+        void SetMaterial5();
         void CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn);
         Vertice v_max;
         Vertice v_min;

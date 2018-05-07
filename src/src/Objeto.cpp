@@ -175,6 +175,58 @@ void Objeto::SetMaterial(){
    glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
 }
 
+void Objeto::SetMaterial2(){
+   GLfloat objeto_ambient[]   = { .0518, .09175, .01175, 1.0 };
+   GLfloat objeto_difusa[]    = { .5424, .0836, .04136, 1.0 };
+   GLfloat objeto_especular[] = { .17811, .99959, .626959, 1.0 };
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
+void Objeto::SetMaterial3(){
+   GLfloat objeto_ambient[]   = {0.2f, 0.2f, 0.2f, 1.0f};
+   GLfloat objeto_difusa[]    = {0.7f, 0.7f, 0.7f, 1.0f};
+   GLfloat objeto_especular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
+void Objeto::SetMaterial4(){
+   GLfloat objeto_ambient[]   = {0.1515f, 0.21848f, 0.3887f, 1.0f};
+   GLfloat objeto_difusa[]    = {0.387f, 0.898f, 0.7488f, 1.0f};
+   GLfloat objeto_especular[] = {0.0018f, 0.0489f, 0.7850f, 1.0f};
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
+void Objeto::SetMaterial5(){
+   GLfloat objeto_ambient[]   = {1.0f, 0.05f, 1.0f, 1.0f};
+   GLfloat objeto_difusa[]    = {1.0f, 0.0f, 0.8787f, 1.0f};
+   GLfloat objeto_especular[] = {0.0044f, 0.970f, 0.789f, 1.0f};
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
 void Objeto::CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn) // Vertice e numero de vertices da nova
 {
     Vertice v1_temp, v2_temp;
@@ -203,9 +255,28 @@ void Objeto::CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn) // V
 	vn->z /= len;
 }
 
-void Objeto::DesenhaObjeto(bool wireframe){
+void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
 
-    SetMaterial();
+    switch(num_objeto){
+    case 0:
+        SetMaterial();
+        break;
+    case 1:
+        SetMaterial2();
+        break;
+    case 2:
+        SetMaterial3();
+        break;
+    case 3:
+        SetMaterial4();
+        break;
+    case 4:
+        SetMaterial5();
+        break;
+    default:
+        SetMaterial();
+    }
+
     int primitiva;
     Vertice vertice_normal;
     wireframe? primitiva = GL_LINE_LOOP : primitiva = GL_POLYGON;
