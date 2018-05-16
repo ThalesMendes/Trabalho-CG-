@@ -14,14 +14,10 @@
 #include <ctype.h>
 #include <string.h>
 #include <sstream>
-#include "glcWavefrontObject.h"
 #include "Objeto.h"
 
-<<<<<<< HEAD
-=======
 #define NUM_OBJECTS 5
 
->>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
 using namespace std;
 string titulo_janela;
 
@@ -34,26 +30,14 @@ bool fullscreen = false;
 
 char objectFiles[5][50] =
 {
+     "../data/obj/cow.ply",
     "../data/obj/snowman.ply",
     "../data/obj/bunny.ply",
     "../data/obj/budda.ply",
-    "../data/obj/dragon.ply",
-     "../data/obj/cow.ply"
+    "../data/obj/dragon.ply"
+
 };
 
-typedef struct
-{
-    //GLMmodel* pmodel = NULL;
-    glcWavefrontObject *pmodel = NULL;
-} object;
-
-object *objectList;
-
-glcWavefrontObject *objectManager = NULL;
-
-int selected = 0;
-int selectedShading = SMOOTH_SHADING;
-int selectedRender = USE_MATERIAL;
 float dist = 11.0;
 int width = 800;
 int height = 800;
@@ -68,14 +52,11 @@ void showMenu()
     cout << "Mouse\n" << endl;
     cout << "* Click to move the object and scroll to zoom in/out." << endl;
     cout << "Keyboard" << endl;
-<<<<<<< HEAD
+
     cout << "* 1 to 5 to change objects" << endl;
-    cout << "* 'w' to wireframe on/off" << endl;
-    cout << "* 'f' to fullscreen on/off" << endl;
-=======
-    cout << "* 1 to 5" << " to change objects" << endl;
+    cout << "* 'f' to set fullscreen on/off" << endl;
     cout << "* 'w' to set wireframe on/off" << endl;
->>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
+
     cout << "* ESC - Para sair" << endl;
 }
 
@@ -111,48 +92,37 @@ void keyboard(unsigned char key, int x, int y)
         case '1':
             selecionado = 0;
             dist = objetos[selecionado].v_max.z + 10;
-<<<<<<< HEAD
-        break;
-        case '2':
-            selecionado = 1;
-            dist = objetos[selecionado].v_max.z + 0.5;
-=======
             max_zoom = 10;
             valor_zoom = 0.5;
+
         break;
         case '2':
             selecionado = 1;
             dist = objetos[selecionado].v_max.z + 0.8;
-            max_zoom = 0.7;
+            max_zoom = 0.4;
             valor_zoom = 0.1;
->>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
+
         break;
         case '3':
             selecionado = 2;
             dist = objetos[selecionado].v_max.z + 0.5;
-<<<<<<< HEAD
-=======
-            max_zoom = 0.5;
+            max_zoom = 0.2;
             valor_zoom = 0.05;
->>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
+
         break;
         case '4':
             selecionado = 3;
             dist = objetos[selecionado].v_max.z + 0.5;
-<<<<<<< HEAD
-=======
-            max_zoom = 0.5;
+            max_zoom = 0.2;
             valor_zoom = 0.05;
->>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
+
         break;
         case '5':
             selecionado = 4;
             dist = objetos[selecionado].v_max.z + 10;
-<<<<<<< HEAD
-=======
-            max_zoom = 7;
+            max_zoom = 6;
             valor_zoom = 0.5;
->>>>>>> badbacaa5d4ba93faef7aae88848885c1f54f55c
+
         break;
 
     }
@@ -236,7 +206,7 @@ void init (void)
     //glLightfv(GL_LIGHT0, GL_POSITION, light0_position);
 
     GLfloat cor_luz[]  = { 1.0, 1.0, 1.0, 1.0};
-   // Posicao da fonte de luz. Ultimo parametro define se a luz sera direcional (0.0) ou tera uma posicional (1.0)
+   // Posicao da fonte de luz
     GLfloat posicao_luz[] = { 50.0, 50.0, 50.0, 1.0};
 
    // Define parametros da luz

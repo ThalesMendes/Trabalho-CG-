@@ -2,6 +2,7 @@
 #include <iostream>
 #define VAZIO -1
 #define NUM_COLUNAS 5
+
 Objeto::Objeto()
 {
     sum_dist = 0;
@@ -14,12 +15,15 @@ Objeto::~Objeto()
 }
 
 
-
+///Funcao que lê o arquivo
+///Entrada: char *arquivo, que é o caminho para o arquivo e o arquivo propriamente dito
+///Saida: Vetor de vertices e faces preenhido
 void Objeto::LerPly(char *arquivo){
 
     //abrindo o arquivo
     FILE *file = fopen(arquivo, "r");
     char buff[255];
+
 
     if(!file){
         printf("ERRO NA LEITURA DO ARQUIVO");
@@ -89,7 +93,7 @@ void Objeto::LerPly(char *arquivo){
                 //se ainda nao li todos os vertices:
                 if(cont_vertices < this->num_vertices){
 
-                    if(num_propriedades > 6)
+                    if(num_propriedades < 6)
                         sscanf(buff, "%f %f %f", &vertices[cont_vertices].x, &vertices[cont_vertices].y, &vertices[cont_vertices].z);
 
 
@@ -98,6 +102,7 @@ void Objeto::LerPly(char *arquivo){
                                &vertices[cont_vertices].z, &vertices[cont_vertices].nx, &vertices[cont_vertices].ny,
                                &vertices[cont_vertices].nz );
 
+                    //Esse if else gigante é so para pegar o maior e menor vertices de cada coordenada
                     if(cont_vertices == 0){
                         v_min.x = vertices[cont_vertices].x;
                         v_min.y = vertices[cont_vertices].y;
@@ -151,7 +156,6 @@ void Objeto::LerPly(char *arquivo){
                 }
             }
 
-            printf("x max: %f   x min: %f", v_max.x, v_min.x);
             fclose(file);
             return;
 
@@ -160,6 +164,7 @@ void Objeto::LerPly(char *arquivo){
     }
 }
 
+///Aqui segue os materiais. Um para cada objeto
 void Objeto::SetMaterial(){
 
    // Material do objeto (neste caso, ruby). Parametros em RGBA
@@ -227,7 +232,10 @@ void Objeto::SetMaterial5(){
    glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
 }
 
-void Objeto::CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn) // Vertice e numero de vertices da nova
+///Funcao que calcula o vetor normal de cada face
+///Entrada: Vertice v1, v2,v3: os 3 vertices que compoe a face e Vertice vn que é onde ficará armezado as coordenadas do vetor
+///Saida: Vertice vn preenchido com as coordenadas da normal
+void Objeto::CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn)
 {
     Vertice v1_temp, v2_temp;
 	double len;
@@ -255,6 +263,10 @@ void Objeto::CalculaNormal(Vertice v1, Vertice v2, Vertice v3, Vertice *vn) // V
 	vn->z /= len;
 }
 
+///Funcao que desenha o objeto
+///Entrada: bool wireframe, que indica que o objeto deve ser desenhado como superficie ou wireframe e
+///         int num_objeto, que indica qual objeto está sendo desenhado (para chamar materiais diferentes)
+///Saida: a figura é desenhada na tela
 void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
 
     switch(num_objeto){
@@ -281,8 +293,10 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
     Vertice vertice_normal;
     wireframe? primitiva = GL_LINE_LOOP : primitiva = GL_POLYGON;
 
+    //Translate para a origen
     glTranslatef(-(v_max.x + v_min.x)/2.0, -(v_max.y + v_min.y)/2.0, -(v_max.z + v_min.z)/2.0);
 
+    //Para todas as faces
     for(int i = 0; i < this->num_faces; i++ ){
 
         glBegin(primitiva);
@@ -291,8 +305,9 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
 
             glNormal3f(vertices[faces[i*NUM_COLUNAS+1]].nx, vertices[faces[i*NUM_COLUNAS+1]].ny, vertices[faces[i*NUM_COLUNAS+1]].nz);
 
+            //Para todos os vertices
             for(int j = 1; j < 5; j++){
-
+                //Desenhamos os vertices na tela
                 glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
                            vertices[faces[i*NUM_COLUNAS+j]].z);
                 }
@@ -303,6 +318,7 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
             CalculaNormal(vertices[faces[i*NUM_COLUNAS+1]], vertices[faces[i*NUM_COLUNAS+2]], vertices[faces[i*NUM_COLUNAS+3]],
                 &vertice_normal);
             glNormal3f(vertice_normal.x, vertice_normal.y, vertice_normal.z);
+
 
             for(int j = 1; j < 4; j++){
                 glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,

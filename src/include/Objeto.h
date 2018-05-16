@@ -1,8 +1,11 @@
 #ifndef OBJETO_H
 #define OBJETO_H
-#include "glcWavefrontObject.h"
+//#include "glcWavefrontObject.h"
 #include <string>
 #include <GL/glut.h>
+#include <math.h>
+#include <stdio.h>
+
 
 typedef struct{
     float x;

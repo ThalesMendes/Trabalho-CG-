@@ -131,14 +131,13 @@
 	<GL/glu.h>
 	<stdlib.h>
 
-1525735776 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\objviewer.cpp
+1525871109 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\objviewer.cpp
 	<iostream>
 	<string>
 	<stdio.h>
 	<ctype.h>
 	<string.h>
 	<sstream>
-	"glcWavefrontObject.h"
 	"Objeto.h"
 
 1525456833 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\leitorply.cpp
@@ -146,14 +145,15 @@
 
 1525456564 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\leitorply.h
 
-1525634025 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
+1525870017 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
 	"Objeto.h"
 	<iostream>
 
-1525635983 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\objeto.h
-	"glcWavefrontObject.h"
+1525865087 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\objeto.h
 	<string>
 	<GL/glut.h>
+	<math.h>
+	<stdio.h>
 
 1525734077 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\shared\glcwavefrontobject.cpp
 	"glcWavefrontObject.h"
@@ -197,4 +197,35 @@
 1525734806 source:c:\users\pichau\desktop\desenvolvimento 2 cg\trabalho-cg-\src\src\objeto.cpp
 	"Objeto.h"
 	<iostream>
+
+1526064747 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\animationbase.cpp
+	<GL/glut.h>
+	<stdio.h>
+	<stdlib.h>
+	<ctype.h>
+	<ctime>
+	<math.h>
+	<stdarg.h>
+	<time.h>
+	<vector>
+	<algorithm>
+	<fstream>
+	<cstdlib>
+	<Inimigo.h>
+	"DesenhadorDoCenario.h"
+
+1524061220 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\inimigo.h
+	<GL/glut.h>
+	<stdio.h>
+	<stdlib.h>
+
+1524060431 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\desenhadordocenario.h
+	<GL/glut.h>
+
+1524060423 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\desenhadordocenario.cpp
+	"DesenhadorDoCenario.h"
+	<math.h>
+
+1524075105 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\inimigo.cpp
+	"Inimigo.h"
 

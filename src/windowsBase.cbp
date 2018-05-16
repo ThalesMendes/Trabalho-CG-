@@ -40,10 +40,12 @@
 			<Add library="libglew32.dll.a" />
 			<Add directory="../shared/windows/lib" />
 		</Linker>
-		<Unit filename="../shared/glcWavefrontObject.cpp" />
-		<Unit filename="../shared/glcWavefrontObject.h" />
+		<Unit filename="animationBase.cpp" />
+		<Unit filename="include/DesenhadorDoCenario.h" />
+		<Unit filename="include/Inimigo.h" />
 		<Unit filename="include/Objeto.h" />
-		<Unit filename="objViewer.cpp" />
+		<Unit filename="src/DesenhadorDoCenario.cpp" />
+		<Unit filename="src/Inimigo.cpp" />
 		<Unit filename="src/Objeto.cpp" />
 		<Extensions>
 			<code_completion />

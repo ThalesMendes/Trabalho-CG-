@@ -29,7 +29,7 @@
 // Globals
 int width  = 1000;
 int height = 500;
-
+int teste=0;
 float yAviao = 0;
 
 float objectPosX = width/2;
@@ -54,7 +54,7 @@ bool mostraPontos = false;
 bool jogoIniciado = false;
 bool fimDoJogo = false;
 bool salvaPontosNoFimDoJogo = true;
-
+int movimentoCamera = 0;
 
 float checkpoint = 0;
 
@@ -255,11 +255,12 @@ void perdeVida(){
 
 void idle() {
     if(!jogoPausado && jogoIniciado){
+        movimentoCamera++;
         posX += moveX;
         yOrthoMin += velocidadeAviao;
         yOrthoMax += velocidadeAviao;
         yAviao += velocidadeAviao;
-
+        teste++;
         for(int i = 0; i < MAX_TIROS; i++){
             if(tiros[i].ativo)
                 tiros[i].y += velocidadeTiro;
@@ -414,6 +415,7 @@ void init(void){
     glClearColor (0.0, 0.0, 0.8, 0.0);
     glShadeModel (GL_SMOOTH);
     glEnable(GL_DEPTH_TEST);               // Habilita Z-buffer
+    glEnable(GL_NORMALIZE);
     //initLight(width, height);
 }
 
@@ -630,16 +632,16 @@ void desenhaJogo(){
     mostraTexto(400, yAviao + 20,0, strPontos, pontos);
 
     ///Esse é o retangulo que indica os pontos e combustivel
-    glColor3f(0.5, 0.5, 0.5); ///Cinza
-    glPushMatrix();
-        glTranslatef(0, yAviao, 0);
-        glBegin(GL_POLYGON);
-            glVertex2f(0.0, 0.0);
-            glVertex2f(width, 0);
-            glVertex2f(width, ALTURA_CHAO);
-            glVertex2f(0, ALTURA_CHAO);
-        glEnd();
-    glPopMatrix();
+//    glColor3f(0.5, 0.5, 0.5); ///Cinza
+//    glPushMatrix();
+//        glTranslatef(0, yAviao, 0);
+//        glBegin(GL_POLYGON);
+//            glVertex2f(0.0, 0.0);
+//            glVertex2f(width, 0);
+//            glVertex2f(width, ALTURA_CHAO);
+//            glVertex2f(0, ALTURA_CHAO);
+//        glEnd();
+//    glPopMatrix();
 
 
     desenhadorDoCenario.desenhaCenario();
@@ -649,7 +651,14 @@ void desenhaJogo(){
     glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < 2*NUM_VERTICES; i+=2 )
     {
-        glVertex2d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1]);
+        glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 0);
+    }
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+    for(int i = 0; i < 2*NUM_VERTICES; i+=2 )
+    {
+        glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 100);
     }
     glEnd();
 
@@ -657,7 +666,15 @@ void desenhaJogo(){
     glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < 2*NUM_VERTICES; i+=2 )
     {
-        glVertex2d(vetorVerticesDireita[i], vetorVerticesDireita[i+1]);
+        glVertex3d(vetorVerticesDireita[i], vetorVerticesDireita[i+1], 0);
+    }
+    glEnd();
+
+
+    glBegin(GL_TRIANGLE_STRIP);
+    for(int i = 0; i < 2*NUM_VERTICES; i+=2 )
+    {
+        glVertex3d(vetorVerticesDireita[i], vetorVerticesDireita[i+1], 100);
     }
     glEnd();
 
@@ -730,11 +747,11 @@ void keyboard (unsigned char key, int x, int y) {
         break;
     case 'p':
         if(!jogoPausado){
-            velocidadeAviao = 0;
+            velocidadeAviao = 1;
             jogoPausado = true;
         }
         else{
-            velocidadeAviao = 2;
+            velocidadeAviao = 0;
             jogoPausado = false;
         }
         break;
@@ -753,7 +770,7 @@ void keyboard (unsigned char key, int x, int y) {
         break;
     case '1':
         jogoIniciado = true;
-        velocidadeAviao = 2;
+        velocidadeAviao = 1;
         break;
     case '2':
         if(!mostraPontos){
@@ -789,12 +806,15 @@ void display() {
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
-    glOrtho(0.0, width, yOrthoMin, yOrthoMax, 30, -30);
+    //glOrtho(0.0, width, yOrthoMin, yOrthoMax, 30, -30);
+    gluPerspective(40.0f,(GLfloat)width/(GLfloat)height,0.1f,2000.0f);
+    gluLookAt(500, movimentoCamera-170, 200, 500, 500 + movimentoCamera, 0 , 0, 0, 1);
+
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity ();
 
-    if(yAviao + 150 >= 500 && salvaPontosNoFimDoJogo){
+    if(yAviao + 150 >= 24200 && salvaPontosNoFimDoJogo){
 
         fimDoJogo = true;
         salvaPontosNoFimDoJogo = false;
