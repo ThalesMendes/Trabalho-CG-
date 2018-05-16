@@ -907,10 +907,31 @@ void Inimigo::desenhaInimigo(){
             glPushMatrix();
                 glColor3f(0.5, 0.2 ,0.2);
                 glBegin(GL_POLYGON);
-                    glVertex2d(this->x, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y + this->ladoB);
-                    glVertex2d(this->x, this->y + this->ladoB);
+                    glVertex3d(this->x, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y + this->ladoB,0);
+                    glVertex3d(this->x, this->y + this->ladoB,0);
+                glEnd();
+
+                glBegin(GL_POLYGON);
+                    glVertex3d(this->x, this->y,90);
+                    glVertex3d(this->x + this->ladoA, this->y,90);
+                    glVertex3d(this->x + this->ladoA, this->y + this->ladoB,90);
+                    glVertex3d(this->x, this->y + this->ladoB,90);
+                glEnd();
+
+
+                glBegin(GL_POLYGON);
+                    glVertex3d(this->x, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y,0);
+
+                    //glVertex3d(this->x + this->ladoA, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y,90);
+
+                    glVertex3d(this->x, this->y,90);
+//                    glVertex3d(this->x, this->y,100);
+//                    glVertex3d(this->x + this->ladoA, this->y + this->ladoB,100);
+//                    glVertex3d(this->x, this->y + this->ladoB,100);
                 glEnd();
             glPopMatrix();
         }

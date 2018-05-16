@@ -26,8 +26,8 @@ class Inimigo
 
         Inimigo* instanciaInimigo();
         void desenhaInimigo();
-        void checaVida(float yAviao, Inimigo inimigos[]);
-        void verificaVida(float yAviao);
+        //void checaVida(float yAviao, Inimigo inimigos[]);
+        //void verificaVida(float yAviao);
 };
 
 #endif // INIMIGO_H
