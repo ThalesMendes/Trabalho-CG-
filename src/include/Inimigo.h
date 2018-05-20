@@ -3,6 +3,7 @@
 #include <GL/glut.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include "Objeto.h"
 
 class Inimigo
 {
@@ -20,12 +21,14 @@ class Inimigo
         float ladoA;
         float ladoB;
         bool houveColisao = false;
+        Objeto objeto;
 
         Inimigo();
         ~Inimigo();
 
         Inimigo* instanciaInimigo();
         void desenhaInimigo();
+        void leInimigo();
         //void checaVida(float yAviao, Inimigo inimigos[]);
         //void verificaVida(float yAviao);
 };

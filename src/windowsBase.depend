@@ -145,11 +145,11 @@
 
 1525456564 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\leitorply.h
 
-1525870017 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
+1526734572 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
 	"Objeto.h"
 	<iostream>
 
-1525865087 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\objeto.h
+1526734220 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\objeto.h
 	<string>
 	<GL/glut.h>
 	<math.h>
@@ -198,7 +198,7 @@
 	"Objeto.h"
 	<iostream>
 
-1526496879 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\animationbase.cpp
+1526735051 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\animationbase.cpp
 	<GL/glut.h>
 	<stdio.h>
 	<stdlib.h>
@@ -213,19 +213,21 @@
 	<cstdlib>
 	<Inimigo.h>
 	"DesenhadorDoCenario.h"
+	"Objeto.h"
 
-1526492770 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\inimigo.h
+1526690978 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\inimigo.h
 	<GL/glut.h>
 	<stdio.h>
 	<stdlib.h>
+	"Objeto.h"
 
 1526491209 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\desenhadordocenario.h
 	<GL/glut.h>
 
-1526495537 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\desenhadordocenario.cpp
+1526734925 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\desenhadordocenario.cpp
 	"DesenhadorDoCenario.h"
 	<math.h>
 
-1526496141 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\inimigo.cpp
+1526734304 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\inimigo.cpp
 	"Inimigo.h"
 

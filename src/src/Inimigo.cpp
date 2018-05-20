@@ -4,6 +4,10 @@
 #define AVIAO 3       //quadrado
 #define COMBUSTIVEL 4 //retangulo 'em pé'
 #define PONTE 5       //retangulo maior
+
+static Objeto helicoptero;
+static Objeto tubarao;
+
 Inimigo::Inimigo(){
     this->raio = 10;
     this->ladoA = 72;
@@ -13,6 +17,15 @@ Inimigo::Inimigo(){
 Inimigo::~Inimigo()
 {
     //dtor
+}
+
+void Inimigo::leInimigo(){
+
+    helicoptero.LerPly("../data/obj/helicoptero.ply");
+
+    tubarao.LerPly("../data/obj/tubarao.ply");
+
+
 }
 
 Inimigo* Inimigo::instanciaInimigo() {
@@ -871,23 +884,28 @@ void Inimigo::desenhaInimigo(){
     if(this->vivo){
         if(this->tipo == HELICOPTERO){
              glPushMatrix();
-                glColor3f(1, 1 ,1);
+                //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
                 glTranslated(this->x, this->y, 0);
-                glutSolidSphere(this->raio, 100, 100);
+                helicoptero.DesenhaObjeto(false, 1);
+                helicoptero.DesenharBoundingBox();
+                //glutSolidSphere(this->raio, 100, 100);
             glPopMatrix();
         }
 
         if(this->tipo == SUBMARINO){
             glPushMatrix();
-                glColor3f(1, 1 ,1);
+                //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
-                glBegin(GL_POLYGON);
-                    glVertex2d(this->x, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y + this->ladoB);
-                    glVertex2d(this->x, this->y + this->ladoB);
-                glEnd();
+                glTranslated(this->x, this->y, 0);
+                tubarao.DesenharBoundingBox();
+                tubarao.DesenhaObjeto(false, 1);
+//                glBegin(GL_POLYGON);
+//                    glVertex2d(this->x, this->y);
+//                    glVertex2d(this->x + this->ladoA, this->y);
+//                    glVertex2d(this->x + this->ladoA, this->y + this->ladoB);
+//                    glVertex2d(this->x, this->y + this->ladoB);
+//                glEnd();
             glPopMatrix();
         }
 
@@ -924,29 +942,25 @@ void Inimigo::desenhaInimigo(){
                 glBegin(GL_POLYGON);
                     glVertex3d(this->x, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y,0);
-
-                    //glVertex3d(this->x + this->ladoA, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y,90);
-
                     glVertex3d(this->x, this->y,90);
-//                    glVertex3d(this->x, this->y,100);
-//                    glVertex3d(this->x + this->ladoA, this->y + this->ladoB,100);
-//                    glVertex3d(this->x, this->y + this->ladoB,100);
                 glEnd();
             glPopMatrix();
         }
 
-        if(this->tipo == AVIAO){
-            glPushMatrix();
-                glColor3f(1, 1 ,1);
-                glTranslated(this->movimento, 0, 0);
-                glBegin(GL_POLYGON);
-                    glVertex2d(this->x, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y + this->ladoA);
-                    glVertex2d(this->x, this->y + this->ladoA);
-                glEnd();
-            glPopMatrix();
-        }
+//        if(this->tipo == AVIAO){
+//            glPushMatrix();
+//                //glColor3f(1, 1 ,1);
+//                glTranslated(this->movimento, 0, 0);
+//                glTranslated(this->x, this->y, 0);
+//                objeto.DesenhaObjeto(false, 1);
+////                glBegin(GL_POLYGON);
+////                    glVertex2d(this->x, this->y);
+////                    glVertex2d(this->x + this->ladoA, this->y);
+////                    glVertex2d(this->x + this->ladoA, this->y + this->ladoA);
+////                    glVertex2d(this->x, this->y + this->ladoA);
+////                glEnd();
+//            glPopMatrix();
+        //}
     }
 }

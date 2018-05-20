@@ -157,7 +157,19 @@ void DesenhadorDoCenario::criaObstaculo2(bool esquerda){
 
     glBegin(GL_TRIANGLE_STRIP);
         for(int i = 0; i < 12*2; i+=2)
-            glVertex2d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1]);
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 0);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+        for(int i = 0; i < 12*2; i+=2)
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 50);
+    glEnd();
+
+     glBegin(GL_TRIANGLE_STRIP);
+        for(int i = 0; i < 12*2; i+=2){
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 0);
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 50);
+        }
     glEnd();
 
 }
@@ -206,7 +218,19 @@ void DesenhadorDoCenario::criaObstaculo3(bool esquerda){
 
     glBegin(GL_TRIANGLE_STRIP);
         for(int i = 0; i < 22*2; i+=2)
-            glVertex2d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1]);
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 0);
+    glEnd();
+
+    glBegin(GL_TRIANGLE_STRIP);
+        for(int i = 0; i < 22*2; i+=2)
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 50);
+    glEnd();
+
+      glBegin(GL_TRIANGLE_STRIP);
+        for(int i = 0; i < 22*2; i+=2){
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 0);
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 50);
+        }
     glEnd();
 }
 
@@ -234,8 +258,21 @@ void DesenhadorDoCenario::criaObstaculo4(bool esquerda){
 
     glBegin(GL_TRIANGLE_STRIP);
         for(int i = 0; i < 6*2; i+=2)
-            glVertex2d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1]);
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1] ,0);
     glEnd();
 
+
+
+    glBegin(GL_TRIANGLE_STRIP);
+        for(int i = 0; i < 6*2; i+=2)
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 50);
+    glEnd();
+
+      glBegin(GL_TRIANGLE_STRIP);
+        for(int i = 0; i < 6*2; i+=2){
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1] ,0);
+            glVertex3d(fabs(localWidth - verticesObstaculo[i]), verticesObstaculo[i+1], 50);
+        }
+    glEnd();
 }
 

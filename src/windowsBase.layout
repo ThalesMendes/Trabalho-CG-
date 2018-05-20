@@ -2,12 +2,24 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="src\Inimigo.cpp" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\DesenhadorDoCenario.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="25468" topLine="66" />
+			<Cursor1 position="3022" topLine="96" />
+		</Cursor>
+	</File>
+	<File name="animationBase.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="27288" topLine="733" />
 		</Cursor>
 		<Folding>
-			<Collapse line="17" />
+			<Collapse line="87" />
+			<Collapse line="298" />
+			<Collapse line="335" />
+			<Collapse line="353" />
+			<Collapse line="376" />
+			<Collapse line="392" />
+			<Collapse line="460" />
+			<Collapse line="505" />
 		</Folding>
 	</File>
 	<File name="include\DesenhadorDoCenario.h" open="0" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -15,27 +27,27 @@
 			<Cursor1 position="192" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="animationBase.cpp" open="1" top="1" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Inimigo.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="25617" topLine="775" />
+			<Cursor1 position="483" topLine="11" />
+		</Cursor>
+	</File>
+	<File name="include\Objeto.h" open="1" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="786" topLine="21" />
+		</Cursor>
+	</File>
+	<File name="src\Objeto.cpp" open="1" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="12181" topLine="304" />
+		</Cursor>
+	</File>
+	<File name="src\Inimigo.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="24514" topLine="45" />
 		</Cursor>
 		<Folding>
-			<Collapse line="84" />
+			<Collapse line="30" />
 		</Folding>
-	</File>
-	<File name="include\Objeto.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="212" topLine="12" />
-		</Cursor>
-	</File>
-	<File name="include\Inimigo.h" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="627" topLine="13" />
-		</Cursor>
-	</File>
-	<File name="src\DesenhadorDoCenario.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="7273" topLine="221" />
-		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

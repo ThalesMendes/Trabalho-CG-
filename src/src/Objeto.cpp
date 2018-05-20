@@ -331,3 +331,15 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
 
 }
 
+void Objeto::DesenharBoundingBox(){
+
+    glBegin(GL_LINE_LOOP);
+        glVertex3f(v_min.x, v_min.y, v_min.z);
+        glVertex3f(v_max.x, v_min.y, v_min.z);
+        glVertex3f(v_min.x, v_max.y, v_min.z);
+        glVertex3f(v_min.x, v_min.y, v_max.z);
+        glVertex3f(v_max.x, v_max.y, v_max.z);
+    glEnd();
+}
+
+

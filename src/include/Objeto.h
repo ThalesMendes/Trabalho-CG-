@@ -7,6 +7,7 @@
 #include <stdio.h>
 
 
+
 typedef struct{
     float x;
     float y;
@@ -23,6 +24,7 @@ class Objeto
         virtual ~Objeto();
         void LerPly(char *arquivo);
         void DesenhaObjeto(bool wireframe, int num_objeto);
+        void DesenharBoundingBox();
         void SetMaterial();
         void SetMaterial2();
         void SetMaterial3();
