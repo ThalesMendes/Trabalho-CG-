@@ -20,6 +20,10 @@ class Inimigo
         float raio;
         float ladoA;
         float ladoB;
+        float minX;
+        float minY;
+        float maxX;
+        float maxY;
         bool houveColisao = false;
         Objeto objeto;
 

@@ -887,8 +887,11 @@ void Inimigo::desenhaInimigo(){
                 //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
                 glTranslated(this->x, this->y, 0);
-                helicoptero.DesenhaObjeto(false, 1);
-                helicoptero.DesenharBoundingBox();
+                helicoptero.DesenhaObjeto(false, 3);
+                this->maxX = helicoptero.v_max.x;
+                this->minX = helicoptero.v_min.x;
+                this->minY = helicoptero.v_min.y;
+                this->maxY = helicoptero.v_max.y;
                 //glutSolidSphere(this->raio, 100, 100);
             glPopMatrix();
         }
@@ -897,9 +900,12 @@ void Inimigo::desenhaInimigo(){
             glPushMatrix();
                 //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
-                glTranslated(this->x, this->y, 0);
-                tubarao.DesenharBoundingBox();
+                glTranslated(x, y, 0);
                 tubarao.DesenhaObjeto(false, 1);
+                this->maxX = tubarao.v_max.x;
+                this->minX = tubarao.v_min.x;
+                this->minY = tubarao.v_min.y;
+                this->maxY = tubarao.v_max.y;
 //                glBegin(GL_POLYGON);
 //                    glVertex2d(this->x, this->y);
 //                    glVertex2d(this->x + this->ladoA, this->y);
@@ -911,13 +917,44 @@ void Inimigo::desenhaInimigo(){
 
         if(this->tipo == COMBUSTIVEL){
             glPushMatrix();
-                glColor3f(0, 0 ,0);
+                //glColor3f(0, 0 ,0);
                 glBegin(GL_POLYGON);
-                    glVertex2d(this->x, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y);
-                    glVertex2d(this->x + this->ladoA, this->y + this->ladoB);
-                    glVertex2d(this->x, this->y + this->ladoB);
+                    glVertex3d(this->x, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y + this->ladoB,0);
+                    glVertex3d(this->x, this->y + this->ladoB,0);
                 glEnd();
+
+                glBegin(GL_POLYGON);
+                    glVertex3d(this->x, this->y,30);
+                    glVertex3d(this->x + this->ladoA, this->y,30);
+                    glVertex3d(this->x + this->ladoA, this->y + this->ladoB,30);
+                    glVertex3d(this->x, this->y + this->ladoB,30);
+                glEnd();
+
+                glBegin(GL_POLYGON);
+                    glVertex3d(this->x, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y,0);
+                    glVertex3d(this->x + this->ladoA, this->y,30);
+                    glVertex3d(this->x, this->y,30);
+                glEnd();
+
+
+                glBegin(GL_POLYGON);
+                    glVertex3d(this->x, this->y,0);
+                    glVertex3d(this->x, this->y,30);
+                    glVertex3d(this->x, this->y + this->ladoB,30);
+                    glVertex3d(this->x, this->y + this->ladoB,0);
+                glEnd();
+
+
+                glBegin(GL_POLYGON);
+                    glVertex3d(this->x+this->ladoA, this->y,30);
+                    glVertex3d(this->x+this->ladoA, this->y,0);
+                    glVertex3d(this->x+this->ladoA, this->y + this->ladoB,0);
+                    glVertex3d(this->x+this->ladoA, this->y + this->ladoB,30);
+                glEnd();
+
             glPopMatrix();
         }
 

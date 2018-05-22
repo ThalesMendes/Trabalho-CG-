@@ -25,6 +25,7 @@ class Objeto
         void LerPly(char *arquivo);
         void DesenhaObjeto(bool wireframe, int num_objeto);
         void DesenharBoundingBox();
+        void DesenharBoundingBoxAviao();
         void SetMaterial();
         void SetMaterial2();
         void SetMaterial3();

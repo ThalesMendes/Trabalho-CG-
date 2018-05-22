@@ -196,7 +196,7 @@ void Objeto::SetMaterial2(){
 void Objeto::SetMaterial3(){
    GLfloat objeto_ambient[]   = {0.2f, 0.2f, 0.2f, 1.0f};
    GLfloat objeto_difusa[]    = {0.7f, 0.7f, 0.7f, 1.0f};
-   GLfloat objeto_especular[] = {1.0f, 1.0f, 1.0f, 1.0f};
+   GLfloat objeto_especular[] = {0.5f, 0.5f, 0.5f, 1.0f};
    GLfloat objeto_brilho[]    = { 90.0f };
 
    // Define os parametros da superficie a ser iluminada
@@ -319,7 +319,6 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
                 &vertice_normal);
             glNormal3f(vertice_normal.x, vertice_normal.y, vertice_normal.z);
 
-
             for(int j = 1; j < 4; j++){
                 glVertex3f(vertices[faces[i*NUM_COLUNAS+j]].x, vertices[faces[i*NUM_COLUNAS+j]].y,
                            vertices[faces[i*NUM_COLUNAS+j]].z);
@@ -334,12 +333,25 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
 void Objeto::DesenharBoundingBox(){
 
     glBegin(GL_LINE_LOOP);
-        glVertex3f(v_min.x, v_min.y, v_min.z);
-        glVertex3f(v_max.x, v_min.y, v_min.z);
-        glVertex3f(v_min.x, v_max.y, v_min.z);
-        glVertex3f(v_min.x, v_min.y, v_max.z);
-        glVertex3f(v_max.x, v_max.y, v_max.z);
+        glVertex3f(v_min.x, v_min.y, 0);
+        glVertex3f(v_max.x, v_min.y, 0);
+        glVertex3f(v_max.x, v_max.y, 0);
+        glVertex3f(v_min.x, v_max.y, 0);
     glEnd();
+}
+
+void Objeto::DesenharBoundingBoxAviao(){
+
+    glBegin(GL_LINE_LOOP);
+        glVertex3f(v_min.x-4.5, v_min.y-3.8, 0);
+        glVertex3f(v_max.x-10.9, v_min.y-3.8, 0);
+        glVertex3f(v_max.x-10.9, v_max.y-0.3, 0);
+        glVertex3f(v_min.x-4.5, v_max.y-0.3, 0);
+    glEnd();
+
+
+
+
 }
 
 

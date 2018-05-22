@@ -66,22 +66,12 @@ void DesenhadorDoCenario::desenhaCenario(){
     glBegin(GL_POLYGON);
         glVertex3d(width/2 -100, 3650,0);
         glVertex3d(width/2 +100, 3650,0);
+        glVertex3d(width/2 +100, 3650,50);
         glVertex3d(width/2 -100, 3650,50);
-        glVertex3d(width/2 +100, 3650,50);
-        glVertex3d(width/2 +100, 4150,0);
-        glVertex3d(width/2 -100, 4150,0);
-        glVertex3d(width/2 +100, 4150,50);
-        glVertex3d(width/2 -100, 4150,50);
     glEnd();
 
 
-    glBegin(GL_POLYGON);
-        glVertex3d(width/2 +100, 3650,0);
-        glVertex3d(width/2 +100, 3650,50);
-        glVertex3d(width/2 +100, 4150,0);
-        glVertex3d(width/2 +100, 4150,50);
 
-    glEnd();
 }
 
 //Desenha os obstaculos aos 0'45'' e 1'25''
@@ -99,31 +89,53 @@ void DesenhadorDoCenario::criaObstaculo1(bool esquerda, int verticeInicial){
         localWidth = width;
 
     glBegin(GL_TRIANGLE_STRIP);
-        glVertex2d(abs(localWidth - 500), verticeInicial + 0);  ///1
-        glVertex2d(abs(localWidth - 500), verticeInicial + 100);///2
-        glVertex2d(abs(localWidth - 300), verticeInicial + 100);///3
-        glVertex2d(abs(localWidth - 500), verticeInicial + 450);///4
-        glVertex2d(abs(localWidth - 300), verticeInicial + 450);///5
-        glVertex2d(abs(localWidth - 500), verticeInicial + 525);///6
-        glVertex2d(abs(localWidth - 420), verticeInicial + 525);///7
-        glVertex2d(abs(localWidth - 500), verticeInicial + 800);///8
-        glVertex2d(abs(localWidth - 420), verticeInicial + 800);///9
-        glVertex2d(abs(localWidth - 500), verticeInicial + 850);///10
+        glVertex3d(abs(localWidth - 500), verticeInicial + 0,0);  ///1
+        glVertex3d(abs(localWidth - 500), verticeInicial + 100,0);///2
+        glVertex3d(abs(localWidth - 300), verticeInicial + 100,0);///3
+        glVertex3d(abs(localWidth - 500), verticeInicial + 450,0);///4
+        glVertex3d(abs(localWidth - 300), verticeInicial + 450,0);///5
+        glVertex3d(abs(localWidth - 500), verticeInicial + 525,0);///6
+        glVertex3d(abs(localWidth - 420), verticeInicial + 525,0);///7
+        glVertex3d(abs(localWidth - 500), verticeInicial + 800,0);///8
+        glVertex3d(abs(localWidth - 420), verticeInicial + 800,0);///9
+        glVertex3d(abs(localWidth - 500), verticeInicial + 850,0);///10
     glEnd();
 
       glBegin(GL_TRIANGLE_STRIP);
-        glVertex2d(abs(localWidth - 500), verticeInicial + 0);  ///1
-        glVertex2d(abs(localWidth - 500), verticeInicial + 100);///2
-        glVertex2d(abs(localWidth - 300), verticeInicial + 100);///3
-        glVertex2d(abs(localWidth - 500), verticeInicial + 450);///4
-        glVertex2d(abs(localWidth - 300), verticeInicial + 450);///5
-        glVertex2d(abs(localWidth - 500), verticeInicial + 525);///6
-        glVertex2d(abs(localWidth - 420), verticeInicial + 525);///7
-        glVertex2d(abs(localWidth - 500), verticeInicial + 800);///8
-        glVertex2d(abs(localWidth - 420), verticeInicial + 800);///9
-        glVertex2d(abs(localWidth - 500), verticeInicial + 850);///10
+        glVertex3d(abs(localWidth - 500), verticeInicial + 0,50);  ///1
+        glVertex3d(abs(localWidth - 500), verticeInicial + 100,50);///2
+        glVertex3d(abs(localWidth - 300), verticeInicial + 100,50);///3
+        glVertex3d(abs(localWidth - 500), verticeInicial + 450,50);///4
+        glVertex3d(abs(localWidth - 300), verticeInicial + 450,50);///5
+        glVertex3d(abs(localWidth - 500), verticeInicial + 525,50);///6
+        glVertex3d(abs(localWidth - 420), verticeInicial + 525,50);///7
+        glVertex3d(abs(localWidth - 500), verticeInicial + 800,50);///8
+        glVertex3d(abs(localWidth - 420), verticeInicial + 800,50);///9
+        glVertex3d(abs(localWidth - 500), verticeInicial + 850,50);///10
     glEnd();
 
+    glBegin(GL_TRIANGLE_STRIP);
+        glVertex3d(abs(localWidth - 500), verticeInicial + 0,0);  ///1
+        glVertex3d(abs(localWidth - 500), verticeInicial + 0,50);  ///1
+        glVertex3d(abs(localWidth - 500), verticeInicial + 100,0);///2
+        glVertex3d(abs(localWidth - 500), verticeInicial + 100,50);///2
+        glVertex3d(abs(localWidth - 300), verticeInicial + 100,0);///3
+          glVertex3d(abs(localWidth - 300), verticeInicial + 100,50);///3
+        glVertex3d(abs(localWidth - 500), verticeInicial + 450,0);///4
+        glVertex3d(abs(localWidth - 500), verticeInicial + 450,50);///4
+        glVertex3d(abs(localWidth - 300), verticeInicial + 450,0);///5
+        glVertex3d(abs(localWidth - 300), verticeInicial + 450,50);///5
+        glVertex3d(abs(localWidth - 500), verticeInicial + 525,0);///6
+        glVertex3d(abs(localWidth - 500), verticeInicial + 525,50);///6
+        glVertex3d(abs(localWidth - 420), verticeInicial + 525,0);///7
+         glVertex3d(abs(localWidth - 420), verticeInicial + 525,50);///7
+        glVertex3d(abs(localWidth - 500), verticeInicial + 800,0);///8
+        glVertex3d(abs(localWidth - 500), verticeInicial + 800,50);///8
+        glVertex3d(abs(localWidth - 420), verticeInicial + 800,0);///9
+        glVertex3d(abs(localWidth - 420), verticeInicial + 800,50);///9
+        glVertex3d(abs(localWidth - 500), verticeInicial + 850,0);///10
+        glVertex3d(abs(localWidth - 500), verticeInicial + 850,50);///10
+    glEnd();
 }
 
 //Desenha o obstaculo aos 1'30''
