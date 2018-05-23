@@ -36,6 +36,7 @@ class Objeto
         Vertice v_min;
         float media_dist;
         int num_faces;
+
     private:
         Vertice *vertices;
 

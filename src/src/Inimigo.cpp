@@ -122,7 +122,7 @@ Inimigo* Inimigo::instanciaInimigo() {
     inimigos[13].x = 350;
     inimigos[13].y = 2250;
     inimigos[13].movel = false;
-    inimigos[13].ladoA = 650;
+    inimigos[13].ladoA = 300;
     inimigos[13].ladoB = 100;
     inimigos[13].pontos = 500;
 
@@ -279,7 +279,7 @@ Inimigo* Inimigo::instanciaInimigo() {
     inimigos[36].x = 350;
     inimigos[36].y = 7050;
     inimigos[36].movel = false;
-    inimigos[36].ladoA = 650;
+    inimigos[36].ladoA = 300;
     inimigos[36].ladoB = 100;
     inimigos[36].pontos = 500;
 
@@ -399,7 +399,7 @@ Inimigo* Inimigo::instanciaInimigo() {
     inimigos[54].x = 350;
     inimigos[54].y = 9300;
     inimigos[54].movel = false;
-    inimigos[54].ladoA = 650;
+    inimigos[54].ladoA = 300;
     inimigos[54].ladoB = 100;
     inimigos[54].pontos = 500;
 
@@ -562,7 +562,7 @@ Inimigo* Inimigo::instanciaInimigo() {
     inimigos[76].x = 350;
     inimigos[76].y = 15350;
     inimigos[76].movel = false;
-    inimigos[76].ladoA = 650;
+    inimigos[76].ladoA = 300;
     inimigos[76].ladoB = 100;
     inimigos[76].pontos = 500;
 
@@ -717,7 +717,7 @@ Inimigo* Inimigo::instanciaInimigo() {
     inimigos[100].x = 350;
     inimigos[100].y = 18450;
     inimigos[100].movel = false;
-    inimigos[100].ladoA = 650;
+    inimigos[100].ladoA = 300;
     inimigos[100].ladoB = 100;
     inimigos[100].pontos = 500;
 
@@ -872,12 +872,39 @@ Inimigo* Inimigo::instanciaInimigo() {
     inimigos[123].x = 350;
     inimigos[123].y = 23950;
     inimigos[123].movel = false;
-    inimigos[123].ladoA = 650;
+    inimigos[123].ladoA = 300;
     inimigos[123].ladoB = 100;
     inimigos[123].pontos = 500;
 
     return inimigos;
 }
+
+void Inimigo::SetMaterial(){
+   GLfloat objeto_ambient[]   = {0.0, 0.0, 0.0, 1.0f};
+   GLfloat objeto_difusa[]    = {0.0, 0.0, 0.0, 1.0f};
+   GLfloat objeto_especular[] = {0.0,	0.0,0.0, 1.0f};
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
+void Inimigo::SetMaterial2(){
+   GLfloat objeto_ambient[]   = {0.2125,	0.1275,	0.054, 1.0f};
+   GLfloat objeto_difusa[]    = {0.714,	0.4284,	0.18144, 1.0f};
+   GLfloat objeto_especular[] = {0.393548,	0.271906,	0.166721, 1.0f};
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
 
 
 void Inimigo::desenhaInimigo(){
@@ -887,7 +914,7 @@ void Inimigo::desenhaInimigo(){
                 //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
                 glTranslated(this->x, this->y, 0);
-                helicoptero.DesenhaObjeto(false, 3);
+                helicoptero.DesenhaObjeto(false, 1);
                 this->maxX = helicoptero.v_max.x;
                 this->minX = helicoptero.v_min.x;
                 this->minY = helicoptero.v_min.y;
@@ -901,7 +928,7 @@ void Inimigo::desenhaInimigo(){
                 //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
                 glTranslated(x, y, 0);
-                tubarao.DesenhaObjeto(false, 1);
+                tubarao.DesenhaObjeto(false, 3);
                 this->maxX = tubarao.v_max.x;
                 this->minX = tubarao.v_min.x;
                 this->minY = tubarao.v_min.y;
@@ -917,8 +944,8 @@ void Inimigo::desenhaInimigo(){
 
         if(this->tipo == COMBUSTIVEL){
             glPushMatrix();
-                //glColor3f(0, 0 ,0);
-                glBegin(GL_POLYGON);
+                SetMaterial();
+                    glBegin(GL_POLYGON);
                     glVertex3d(this->x, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y + this->ladoB,0);
@@ -960,7 +987,7 @@ void Inimigo::desenhaInimigo(){
 
           if(this->tipo == PONTE){
             glPushMatrix();
-                glColor3f(0.5, 0.2 ,0.2);
+                SetMaterial2();
                 glBegin(GL_POLYGON);
                     glVertex3d(this->x, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y,0);

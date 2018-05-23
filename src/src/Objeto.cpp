@@ -196,7 +196,7 @@ void Objeto::SetMaterial2(){
 void Objeto::SetMaterial3(){
    GLfloat objeto_ambient[]   = {0.2f, 0.2f, 0.2f, 1.0f};
    GLfloat objeto_difusa[]    = {0.7f, 0.7f, 0.7f, 1.0f};
-   GLfloat objeto_especular[] = {0.5f, 0.5f, 0.5f, 1.0f};
+   GLfloat objeto_especular[] = {0.1f, 0.1f, 0.1f, 1.0f};
    GLfloat objeto_brilho[]    = { 90.0f };
 
    // Define os parametros da superficie a ser iluminada

@@ -304,7 +304,15 @@ void perdeVida(){
     vidas--;
 }
 
+float produtoVetorial(float y, float x, float tX2, float tY2, float tX3, float tY3){
 
+
+}
+
+bool pontoNoTriangulo(float x, float y, float tX1, float tY1, float tX2, float tY2, float tX3, float tY3){
+
+
+}
 
 void idle() {
 
@@ -345,9 +353,12 @@ void idle() {
     GLfloat posicao_luz[] = { 500+(posX/10+arruma_posX_2D), yAviao, 0, 1};
     GLfloat posicao_luz1[] = {1300, yAviao + 1600 , 150, 1};
     GLfloat posicao_luz2[] = {500, yAviao+250, 250, 1};
+    GLfloat posicao_luz3[] = {-200, yAviao + 1600 , 250, 1};
+
     glLightfv(GL_LIGHT0, GL_POSITION, posicao_luz);
     glLightfv(GL_LIGHT1, GL_POSITION, posicao_luz1);
     glLightfv(GL_LIGHT2, GL_POSITION, posicao_luz2);
+    glLightfv(GL_LIGHT3, GL_POSITION, posicao_luz3);
     glutPostRedisplay();
 
 }
@@ -482,20 +493,21 @@ void init(void){
     glEnable(GL_LIGHT0);
     glEnable(GL_LIGHT1);
     glEnable(GL_LIGHT2);
+    glEnable(GL_LIGHT3);
 
     //glEnable(GL_COLOR_MATERIAL);
     //glColorMaterial(GL_FRONT_AND_BACK, GL_DIFFUSE);
 
     GLfloat cor_luz[]  = { 1.0, 1.0, 1.0, 1.0};
-    GLfloat cor_luz1[]  = { 0.0, 1.0, 1.0, 0.0};
+    GLfloat cor_luz1[]  = { 1, 1, 1, 0.0};
     GLfloat posicao_luz[] = { 500+(posX/10+arruma_posX_2D), yAviao, 0, 1};
     GLfloat posicao_luz1[] = {1300, yAviao + 1600 , 150, 1};
-    GLfloat posicao_luz2[] = {500, yAviao +250 , 250, 1};
+    GLfloat posicao_luz2[] = {150, yAviao + 250 , 250, 1};
+    GLfloat posicao_luz3[] = {-200, yAviao + 1600 , 150, 1};
 
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_NORMALIZE);
-
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, cor_luz);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, cor_luz);
@@ -513,7 +525,15 @@ void init(void){
     glLightfv(GL_LIGHT2, GL_SPECULAR, cor_luz);
     glLightfv(GL_LIGHT2, GL_POSITION, posicao_luz2);
 
+
+    glLightfv(GL_LIGHT3, GL_AMBIENT, cor_luz);
+    glLightfv(GL_LIGHT3, GL_DIFFUSE, cor_luz);
+    glLightfv(GL_LIGHT3, GL_SPECULAR, cor_luz);
+    glLightfv(GL_LIGHT3, GL_POSITION, posicao_luz3);
+
+
     //initLight(width, height);
+
 }
 
 //Funcao que desenha tiro
@@ -565,6 +585,19 @@ void SetMaterial(){
    GLfloat objeto_ambient[]   = {0.0215, 0.1745, 0.0215, 1.0f};
    GLfloat objeto_difusa[]    = {0.07568, 0.61424, 0.07568, 1.0f};
    GLfloat objeto_especular[] = {0.633,	0.727811,0.633, 1.0f};
+   GLfloat objeto_brilho[]    = { 90.0f };
+
+   // Define os parametros da superficie a ser iluminada
+   glMaterialfv(GL_FRONT, GL_AMBIENT, objeto_ambient);
+   glMaterialfv(GL_FRONT, GL_DIFFUSE, objeto_difusa);
+   glMaterialfv(GL_FRONT, GL_SPECULAR, objeto_especular);
+   glMaterialfv(GL_FRONT, GL_SHININESS, objeto_brilho);
+}
+
+void SetMaterial3(){
+   GLfloat objeto_ambient[]   = {0.18, 0.18, 0.18, 1.0f};
+   GLfloat objeto_difusa[]    = {0.0, 0.0, 0.0, 1.0f};
+   GLfloat objeto_especular[] = {0.0,0.0, 0.0, 1.0f};
    GLfloat objeto_brilho[]    = { 90.0f };
 
    // Define os parametros da superficie a ser iluminada
@@ -664,7 +697,7 @@ void checaColisaoCenario(){
 bool triPoint(float x1, float y1, float x2, float y2, float x3, float y3, float px, float py) {
 
   // get the area of the triangle
-  float areaOrig = fabs( (x2-x1)*(y3-y1) - (x3-x1)*(y2-y1) );
+  float areaOrig = fabs( (x2-x1)*(y3-y1) - (x3-x1)*(y2-y1) ) ;
 
   // get the area of 3 triangles made between the point
   // and the corners of the triangle
@@ -870,10 +903,11 @@ void desenhaJogo2D(){
     char strPontos [] = "Pontos: ";
     mostraTexto(400, yAviao + 20,0, strPontos, pontos);
 
-    SetMaterial();
+
 
     ///Esse é o retangulo que indica os pontos e combustivel
-    //glColor3f(0.5, 0.5, 0.5); ///Cinza
+    SetMaterial3();
+
     glPushMatrix();
         glTranslatef(0, yAviao, 0);
         glBegin(GL_POLYGON);
@@ -884,6 +918,7 @@ void desenhaJogo2D(){
         glEnd();
     glPopMatrix();
 
+    SetMaterial();
 
     desenhadorDoCenario.desenhaCenario();
 
@@ -924,8 +959,13 @@ void desenhaJogo2D(){
 
     ///Aqui deixamos vivos apenas os inimigos que estao dentro do ortho com excecao dos combustiveis
     ///que devem ser desenhados a todo momento
+    int offset_helicoptero_sumir;
     for(int i = 0; i < NUM_INIMIGOS; i++){
-        if(inimigos[i].y > yOrthoMin + 100 && inimigos[i].y < yOrthoMax + 100 && !inimigos[i].houveColisao && inimigos[i].tipo != AVIAO){
+        if(inimigos[i].tipo == HELICOPTERO)
+           offset_helicoptero_sumir = 50;
+        else
+            offset_helicoptero_sumir = 0;
+        if(inimigos[i].y > yOrthoMin + 100 + offset_helicoptero_sumir && inimigos[i].y < yOrthoMax + 100 && !inimigos[i].houveColisao && inimigos[i].tipo != AVIAO){
             inimigos[i].vivo = true;
         }
         else{
@@ -986,7 +1026,7 @@ void desenhaJogo3D(){
 
 
     glBegin(GL_TRIANGLE_STRIP);
-    for(int i = 0; i < 2*NUM_VERTICES; i+=2 )
+    for(int i = 0; i < 2*NUM_VERTICES - 6; i+=2 )
     {
 //        Vertice v1, v2, v3;
 //        v1.x = vetorVerticesEsquerda[i+0];
@@ -995,11 +1035,20 @@ void desenhaJogo3D(){
 //
 //        v2.x = vetorVerticesEsquerda[i+2];
 //        v2.y = vetorVerticesEsquerda[i+3];
-//        v2.z = 100;
+//        v2.z = 0;
 //
 //        v3.x = vetorVerticesEsquerda[i+4];
 //        v3.y = vetorVerticesEsquerda[i+5];
 //        v3.z = 100;
+//
+//        Vertice vn;
+//
+//
+//
+//
+//        CalculaNormal2(v1, v2,v3, &vn);
+//        glNormal3f(vn.x, vn.y, vn.y);
+
         glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 0);
         glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 100);
 
@@ -1182,12 +1231,25 @@ void display() {
 
     checaColisaoTiroInimigo();
     checaColisaoAviaoInimigo();
-    for(int i = 0; i < NUM_VERTICES*2; i+=2)
-        if(triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
-                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
-                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
-                    455 - offset_x_2D + posX/1.15, yAviao) )
-            perdeVida();
+
+//    for(int i = 0; i < NUM_VERTICES*2; i+=2)
+//        if(triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
+//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
+//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
+//                    455 - offset_x_2D + posX/1.15, yAviao + 140 + offset_y_2D) &&
+//            triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
+//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
+//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
+//                    545 - offset_x_2D + posX/1.15, yAviao + 140 + offset_y_2D) &&
+//           triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
+//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
+//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
+//                    545 - offset_x_2D + posX/1.15, yAviao + 200 + offset_y_2D) &&
+//           triPoint(vetor8erticesEsquerda[i], vetorVerticesEsquerda[i+1],
+//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
+//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
+//                    455 - offset_x_2D + posX/1.15, yAviao + 200 + offset_y_2D) )
+//            perdeVida();
 
     int arrumaTranslateY = 0;
     if(projecao3D){

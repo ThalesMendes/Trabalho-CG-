@@ -26,7 +26,8 @@ class Inimigo
         float maxY;
         bool houveColisao = false;
         Objeto objeto;
-
+        void SetMaterial();
+        void SetMaterial2();
         Inimigo();
         ~Inimigo();
 
