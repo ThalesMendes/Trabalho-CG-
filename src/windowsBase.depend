@@ -145,7 +145,7 @@
 
 1525456564 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\leitorply.h
 
-1527029864 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
+1528835157 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\objeto.cpp
 	"Objeto.h"
 	<iostream>
 
@@ -198,7 +198,7 @@
 	"Objeto.h"
 	<iostream>
 
-1527032841 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\animationbase.cpp
+1529422936 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\animationbase.cpp
 	<GL/glut.h>
 	<stdio.h>
 	<stdlib.h>
@@ -213,22 +213,72 @@
 	<iostream>
 	<cstdlib>
 	<Inimigo.h>
+	"glcTexture.h"
+	"glcWavefrontObject.h"
 	"DesenhadorDoCenario.h"
 	"Objeto.h"
 
-1527029864 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\inimigo.h
+1529419372 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\inimigo.h
 	<GL/glut.h>
 	<stdio.h>
 	<stdlib.h>
 	"Objeto.h"
+	"glcTexture.h"
+	"glcWavefrontObject.h"
 
-1526491209 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\desenhadordocenario.h
+1527090160 c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\include\desenhadordocenario.h
 	<GL/glut.h>
 
-1527002464 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\desenhadordocenario.cpp
+1527091826 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\desenhadordocenario.cpp
 	"DesenhadorDoCenario.h"
 	<math.h>
 
-1527032115 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\inimigo.cpp
+1529419312 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\src\src\inimigo.cpp
 	"Inimigo.h"
+
+1513101954 source:c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\glctexture.cpp
+	<string>
+	<stdio.h>
+	<malloc.h>
+	"GL/glut.h"
+	"png.h"
+	"glcTexture.h"
+	"jpeglib.h"
+
+1267030196 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\windows\include\png\png.h
+	"zlib.h"
+	"pngconf.h"
+	<crtdbg.h>
+
+1267041588 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\windows\include\zlib\zlib.h
+	"zconf.h"
+
+1267041588 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\windows\include\zlib\zconf.h
+	<windows.h>
+	<sys/types.h>
+	<unistd.h>
+	<unixio.h>
+
+1267030196 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\windows\include\png\pngconf.h
+	"pngusr.h"
+	"config.h"
+	<windows.h>
+	<stdio.h>
+	<stdio.h>
+	<sys/types.h>
+	<setjmp.h>
+	<strings.h>
+	<string.h>
+	<stdlib.h>
+	<fp.h>
+	<math.h>
+	<m68881.h>
+	<mem.h>
+	<alloc.h>
+	<malloc.h>
+	<time.h>
+	<dos.h>
+
+1513101955 c:\users\thales castro\desktop\trabcg\trabalho-cg-\shared\glctexture.h
+	<string>
 

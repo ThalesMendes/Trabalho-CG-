@@ -13,6 +13,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <Inimigo.h>
+#include "glcTexture.h"
+#include "glcWavefrontObject.h"
 #include "DesenhadorDoCenario.h"
 #include "Objeto.h"
 #define ALTURA_CHAO 100
@@ -25,9 +27,35 @@
 #define PONTE 5
 #define RAIO_TIRO 5
 #define NUM_INIMIGOS 124
+#define NUM_OBJECTS 5
+#define MAX_ROTATE 25
 
+char objectFiles[NUM_OBJECTS][50] =
+{
+    "../data/texturedObj/littleCow.obj",
+    "../data/texturedObj/duck.obj",
+    "../data/texturedObj/fish.obj",
+    "../data/texturedObj/Wood_Boat.obj",
+    "../data/texturedObj/plane.obj"
+};
+
+char textureFiles[NUM_OBJECTS][50] =
+{
+    "../data/texturedObj/littleCow.png",
+    "../data/texturedObj/duck.png",
+    "../data/texturedObj/fish.png",
+    "../data/texturedObj/TextureBoat.png",
+    "../data/texturedObj/plane.png"
+
+};
+
+glcTexture *textureManager = NULL;
+glcWavefrontObject *objectManager = NULL;
+int selected = 4;
 
 Objeto aviao;
+int rotateQuandoMovimenta = 1;
+int incremetadorDeRotate = 0;
 int offset_x_2D = 0;
 int offset_y_2D = 0;
 int arruma_posX_2D = 0;
@@ -54,7 +82,7 @@ int podeAbastecer = 0;
 int podeAtirar = 0;
 
 int combustivel = 100;
-int vidas = 3;
+int vidas = 30;
 int pontos = 0;
 
 bool jogoPausado = false;
@@ -309,6 +337,39 @@ float produtoVetorial(float y, float x, float tX2, float tY2, float tX3, float t
 
 }
 
+void desenhaAviao(){
+    int arrumaTranslateY = 0;
+    int arrumaTranslateX = 0;
+
+    int arrumaRotate2D = 0;
+    if(!projecao3D){
+        arrumaTranslateY = 35;
+        arrumaTranslateX = 0.1;
+        arrumaRotate2D = 180;
+    }
+    else {
+        arrumaTranslateY = 0;
+        arrumaTranslateX = 0;
+        arrumaRotate2D = 0;
+    }
+
+
+    textureManager->Bind(4);
+    glTranslatef(500 + posX/(1.1 - arrumaTranslateX), yAviao + 200 - arrumaTranslateY, 0);
+    glScalef(12, 12, 12);
+    glRotatef(arrumaRotate2D, 0 , 1, 0);
+    glRotatef(90, 0 , 0, 1);
+    glRotatef(90 + rotateQuandoMovimenta, 1 , 0, 0);
+    objectManager->SetColor(1.0, 0.0, 0.0);
+    objectManager->SelectObject(selected);
+    objectManager->SetShadingMode(SMOOTH_SHADING); // Alternative: FLAT_SHADING
+    objectManager->SetRenderMode(USE_TEXTURE);
+    objectManager->Draw();
+
+//    glTranslatef(0, -17.5 + arrumaTranslateY, -posX/(16.5 + arrumaTranslateX));
+
+}
+
 bool pontoNoTriangulo(float x, float y, float tX1, float tY1, float tX2, float tY2, float tX3, float tY3){
 
 
@@ -322,6 +383,14 @@ void idle() {
         yOrthoMax += velocidadeAviao;
         yAviao += velocidadeAviao;
         teste++;
+
+        if(rotateQuandoMovimenta < MAX_ROTATE && rotateQuandoMovimenta > 0){
+            rotateQuandoMovimenta += incremetadorDeRotate;
+        }
+
+        if(rotateQuandoMovimenta < 0 && rotateQuandoMovimenta > -MAX_ROTATE)
+            rotateQuandoMovimenta += incremetadorDeRotate;
+
         for(int i = 0; i < MAX_TIROS; i++){
             if(tiros[i].ativo)
                 tiros[i].y += velocidadeTiro;
@@ -368,8 +437,24 @@ void specialKeysPress(int key, int x, int y) {
     {
     case GLUT_KEY_RIGHT:
         moveX = 2;
+        if(rotateQuandoMovimenta==0)
+            rotateQuandoMovimenta++;
+        if(rotateQuandoMovimenta == MAX_ROTATE){
+            incremetadorDeRotate = 0;
+        }
+        else
+            incremetadorDeRotate = 1;
+
         break;
     case GLUT_KEY_LEFT:
+        if(rotateQuandoMovimenta==0)
+            rotateQuandoMovimenta--;
+        if(rotateQuandoMovimenta == -MAX_ROTATE){
+            incremetadorDeRotate = 0;
+        }
+        else
+            incremetadorDeRotate = -1;
+
         moveX = -2;
         break;
     case GLUT_KEY_UP:
@@ -405,9 +490,27 @@ void specialKeysRelease(int key, int x, int y) {
     switch (key)
     {
     case GLUT_KEY_LEFT :
-    case GLUT_KEY_RIGHT :
         moveX = 0;
+        if(rotateQuandoMovimenta == -MAX_ROTATE)
+            rotateQuandoMovimenta++;
+        moveX = 0;
+        if(rotateQuandoMovimenta < 0)
+            incremetadorDeRotate = 1;
+        else
+            incremetadorDeRotate = 0;
         break;
+
+        break;
+    case GLUT_KEY_RIGHT :
+        if(rotateQuandoMovimenta== MAX_ROTATE)
+            rotateQuandoMovimenta--;
+        moveX = 0;
+        if(rotateQuandoMovimenta > 0)
+            incremetadorDeRotate = -1;
+        else
+            incremetadorDeRotate = 0;
+        break;
+
     case GLUT_KEY_DOWN:
     case GLUT_KEY_UP:
             velocidadeAviao = 2;
@@ -531,6 +634,26 @@ void init(void){
     glLightfv(GL_LIGHT3, GL_SPECULAR, cor_luz);
     glLightfv(GL_LIGHT3, GL_POSITION, posicao_luz3);
 
+    inimigo.leInimigo();
+
+    textureManager = new glcTexture();
+    textureManager->SetNumberOfTextures(NUM_OBJECTS);
+    textureManager->SetWrappingMode(GL_REPEAT);
+    for(int i = 0; i < NUM_OBJECTS; i++)
+        textureManager->CreateTexture( textureFiles[i], i);
+
+    // LOAD OBJECTS
+    objectManager = new glcWavefrontObject();
+    objectManager->SetNumberOfObjects(NUM_OBJECTS);
+    for(int i = 0; i < NUM_OBJECTS; i++)
+    {
+        objectManager->SelectObject(i);
+        objectManager->ReadObject(objectFiles[i]);
+        objectManager->Unitize();
+        objectManager->FacetNormal();
+        objectManager->VertexNormals(90.0);
+        objectManager->Scale(5);
+    }
 
     //initLight(width, height);
 
@@ -701,9 +824,9 @@ bool triPoint(float x1, float y1, float x2, float y2, float x3, float y3, float 
 
   // get the area of 3 triangles made between the point
   // and the corners of the triangle
-  float area1 =    fabs( (x1-px)*(y2-py) - (x2-px)*(y1-py) );
-  float area2 =    fabs( (x2-px)*(y3-py) - (x3-px)*(y2-py) );
-  float area3 =    fabs( (x3-px)*(y1-py) - (x1-px)*(y3-py) );
+  float area1 = fabs((x1-px)*(y2-py) - (x2-px)*(y1-py));
+  float area2 = fabs((x2-px)*(y3-py) - (x3-px)*(y2-py));
+  float area3 = fabs((x3-px)*(y1-py) - (x1-px)*(y3-py));
 
   // if the sum of the three areas equals the original,
   // we're inside the triangle!
@@ -827,12 +950,12 @@ bool aviaoBateuBoundingBox(Inimigo enemy){
 
 
     if(
-       (yAviao + 200 + offset_y_2D >= enemy.y - meio_y_inimigo && yAviao + 200 + offset_y_2D <= enemy.y + meio_y_inimigo)
+       (yAviao + 250 + offset_y_2D >= enemy.y - meio_y_inimigo && yAviao + 250 + offset_y_2D <= enemy.y + meio_y_inimigo)
        &&
         (
-         (455 + posX*1.15 + offset_x_2D <= enemy.x + meio_x_inimigo + enemy.movimento && 455 + posX*1.15 +  offset_x_2D >= enemy.x - meio_x_inimigo + enemy.movimento)
+         (465 + posX*1.15 + offset_x_2D <= enemy.x + meio_x_inimigo + enemy.movimento && 465 + posX*1.15 +  offset_x_2D >= enemy.x - meio_x_inimigo + enemy.movimento)
        ||
-         (545 + posX*1.15 + + offset_x_2D >= enemy.x - meio_x_inimigo + enemy.movimento && 545+posX*1.15 + offset_x_2D  <= enemy.x + meio_x_inimigo + enemy.movimento)
+         (535 + posX*1.15 + offset_x_2D >= enemy.x - meio_x_inimigo + enemy.movimento && 535+posX*1.15 + offset_x_2D  <= enemy.x + meio_x_inimigo + enemy.movimento)
          )
     )
         return true;
@@ -892,7 +1015,7 @@ void desenhaJogo2D(){
         mostraTextoSemVariavel(470, yAviao + 250, 0, "Pause");
     }
 
-    SetMaterial2();
+    //SetMaterial2();
     //glColor3f(1, 1, 0);
     ///Combustivel, Vida e Pontos
 
@@ -906,7 +1029,7 @@ void desenhaJogo2D(){
 
 
     ///Esse é o retangulo que indica os pontos e combustivel
-    SetMaterial3();
+    //SetMaterial3();
 
     glPushMatrix();
         glTranslatef(0, yAviao, 0);
@@ -918,7 +1041,7 @@ void desenhaJogo2D(){
         glEnd();
     glPopMatrix();
 
-    SetMaterial();
+    //SetMaterial();
 
     desenhadorDoCenario.desenhaCenario();
 
@@ -944,17 +1067,6 @@ void desenhaJogo2D(){
     ///TIROS
     acionaTiro();
 
-    ///Esse é o aviao
-//    glPushMatrix();
-//        glTranslatef(posX, yAviao, 0);
-//        glBegin(GL_TRIANGLE_STRIP);
-//            glColor3f(1, 1, 0);
-//            glVertex2d(width/2 - 20, 110);
-//            glVertex2d(width/2 + 20, 110);
-//            glVertex2d(width/2, 150);
-//        glEnd();
-//    glPopMatrix();
-
     glColor3f(1, 1, 1);
 
     ///Aqui deixamos vivos apenas os inimigos que estao dentro do ortho com excecao dos combustiveis
@@ -977,8 +1089,12 @@ void desenhaJogo2D(){
     ///Aqui Desenhamos os inimigos que estao dentro do ortho atual (estao Vivos)
     for(int i = 0; i < NUM_INIMIGOS; i++){
         if(inimigos[i].tipo != AVIAO)
-            inimigos[i].desenhaInimigo();
+            inimigos[i].desenhaInimigo(180);
     }
+
+    glPushMatrix();
+    desenhaAviao();
+    glPopMatrix();
 }
 
 
@@ -993,7 +1109,7 @@ void desenhaJogo3D(){
         mostraTextoSemVariavel(470, yAviao + 250, 0, "Pause");
     }
 
-    SetMaterial2();
+    //SetMaterial2();
     //glColor3f(1, 1, 0);
     ///Combustivel, Vida e Pontos
     char strCombustivel [] = "Combustivel: ";
@@ -1003,7 +1119,7 @@ void desenhaJogo3D(){
     char strPontos [] = "Pontos: ";
     mostraTexto(1000, yAviao + 1000, 150, strPontos, pontos);
 
-    SetMaterial();
+    //SetMaterial();
     desenhadorDoCenario.desenhaCenario();
 
 
@@ -1028,29 +1144,8 @@ void desenhaJogo3D(){
     glBegin(GL_TRIANGLE_STRIP);
     for(int i = 0; i < 2*NUM_VERTICES - 6; i+=2 )
     {
-//        Vertice v1, v2, v3;
-//        v1.x = vetorVerticesEsquerda[i+0];
-//        v1.y = vetorVerticesEsquerda[i+1];
-//        v1.z = 100;
-//
-//        v2.x = vetorVerticesEsquerda[i+2];
-//        v2.y = vetorVerticesEsquerda[i+3];
-//        v2.z = 0;
-//
-//        v3.x = vetorVerticesEsquerda[i+4];
-//        v3.y = vetorVerticesEsquerda[i+5];
-//        v3.z = 100;
-//
-//        Vertice vn;
-//
-//
-//
-//
-//        CalculaNormal2(v1, v2,v3, &vn);
-//        glNormal3f(vn.x, vn.y, vn.y);
-
-        glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 0);
-        glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 100);
+    glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 0);
+    glVertex3d(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1], 100);
 
     }
     glEnd();
@@ -1086,19 +1181,6 @@ void desenhaJogo3D(){
     ///TIROS
     acionaTiro();
 
-    ///Esse é o aviao
-
-//    glPushMatrix();
-//        glTranslatef(posX, yAviao, 0);
-//        glBegin(GL_TRIANGLE_STRIP);
-//            glColor3f(1, 1, 0);
-//            glVertex2d(width/2 - 20, 110);
-//            glVertex2d(width/2 + 20, 110);
-//            glVertex2d(width/2, 150);
-//        glEnd();
-//    glPopMatrix();
-
-   // glColor3f(1, 1, 1);
 
     ///Aqui deixamos vivos apenas os inimigos que estao dentro do ortho com excecao dos combustiveis
     ///que devem ser desenhados a todo momento
@@ -1112,12 +1194,23 @@ void desenhaJogo3D(){
             }
         }
     }
+
     ///Aqui Desenhamos os inimigos que estao dentro do ortho atual (estao Vivos)
     for(int i = 0; i < NUM_INIMIGOS; i++){
         if(inimigos[i].tipo != AVIAO)
-            inimigos[i].desenhaInimigo();
-
+            inimigos[i].desenhaInimigo(0);
     }
+
+    glPushMatrix();
+    desenhaAviao();
+    glPopMatrix();
+
+    glBegin(GL_POLYGON);
+        glVertex3f(0, 0, -20);
+        glVertex3f(1000, 0,-20);
+        glVertex3f(1000, 25000, -20);
+        glVertex3f(0, 25000, -20);
+    glEnd();
 }
 
 //Funcao que desenha a tela de pontuacao
@@ -1220,7 +1313,6 @@ void display() {
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity ();
 
-
     if(yAviao + 150 >= 24200 && salvaPontosNoFimDoJogo){
 
         fimDoJogo = true;
@@ -1229,64 +1321,68 @@ void display() {
         salvaPontos();
     }
 
-    checaColisaoTiroInimigo();
-    checaColisaoAviaoInimigo();
-
-//    for(int i = 0; i < NUM_VERTICES*2; i+=2)
-//        if(triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
-//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
-//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
-//                    455 - offset_x_2D + posX/1.15, yAviao + 140 + offset_y_2D) &&
-//            triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
-//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
-//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
-//                    545 - offset_x_2D + posX/1.15, yAviao + 140 + offset_y_2D) &&
-//           triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
-//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
-//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
-//                    545 - offset_x_2D + posX/1.15, yAviao + 200 + offset_y_2D) &&
-//           triPoint(vetor8erticesEsquerda[i], vetorVerticesEsquerda[i+1],
-//                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
-//                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
-//                    455 - offset_x_2D + posX/1.15, yAviao + 200 + offset_y_2D) )
-//            perdeVida();
-
     int arrumaTranslateY = 0;
+    float arruma_translate_x;
     if(projecao3D){
         arrumaTranslateY = -25;
+        arruma_translate_x = 1.15;
         arruma_posX_2D = 0;
+        offset_x_2D = 0;
+        offset_y_2D = 0;
     }
     else{
         arrumaTranslateY = -15;
         arruma_posX_2D = 4;
+        offset_x_2D = 0;
+        offset_y_2D = -30;
+        arruma_translate_x = 1.1;
     }
 
-    if(!projecao3D){
-        offset_x_2D = 30;
-        offset_y_2D = -40;
-    }
-    else{
-        offset_x_2D = 0;
-        offset_y_2D = 0;
-    }
-//    glPushMatrix();
-//    glTranslated(posX/1.15, yAviao, 0);
-//    glBegin(GL_LINE_LOOP);
-//        glVertex3f(455 - offset_x_2D, 140 + offset_y_2D, 0);
-//        glVertex3f(545 + offset_x_2D, 140 + offset_y_2D, 0);
-//        glVertex3f(545 + offset_x_2D, 200 + offset_y_2D, 0);
-//        glVertex3f(455 - offset_x_2D, 200 + offset_y_2D, 0);
-//    glEnd();
-//    glPopMatrix();
+    checaColisaoTiroInimigo();
+    checaColisaoAviaoInimigo();
+    if(desenhadorDoCenario.ChecaColisaoIlhas(465 - offset_x_2D + posX/arruma_translate_x, 535 + offset_x_2D + posX/arruma_translate_x, yAviao + 200 + offset_y_2D))
+        perdeVida();
+
+    for(int i = 0; i < NUM_VERTICES*2 - 6 ; i+=2)
+        if(triPoint(vetorVerticesEsquerda[i], vetorVerticesEsquerda[i+1],
+                    vetorVerticesEsquerda[i+2], vetorVerticesEsquerda[i+3],
+                    vetorVerticesEsquerda[i+4], vetorVerticesEsquerda[i+5],
+                    465 - offset_x_2D + posX/arruma_translate_x, yAviao + 140 + offset_y_2D))
+            perdeVida();
+
+
+    for(int i = 0; i < NUM_VERTICES*2 - 6 ; i+=2)
+        if(triPoint(vetorVerticesDireita[i], vetorVerticesDireita[i+1],
+                    vetorVerticesDireita[i+2], vetorVerticesDireita[i+3],
+                    vetorVerticesDireita[i+4], vetorVerticesDireita[i+5],
+                    535 + offset_x_2D + posX/arruma_translate_x, yAviao + 140 + offset_y_2D))
+            perdeVida();
+
+//    cout << "arruma translate X: " << arruma_translate_x << endl;
+//
+    ///Bounding box Aviao
+    glPushMatrix();
+    glTranslated(posX/arruma_translate_x, yAviao, 0);
+    glBegin(GL_LINE_LOOP);
+        glVertex3f(465 - offset_x_2D, 140 + offset_y_2D, 0);
+        glVertex3f(535 + offset_x_2D, 140 + offset_y_2D, 0);
+        glVertex3f(535 + offset_x_2D, 250 + offset_y_2D, 0);
+        glVertex3f(465 - offset_x_2D, 250 + offset_y_2D, 0);
+    glEnd();
+    glPopMatrix();
 
 
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
 
+
+
+
     if(!projecao3D){
+        glOrtho(0.0, width, yOrthoMin, yOrthoMax, 30, -30);
         if(!mostraPontos && vidas >= 0){
             glPushMatrix();
-                glScalef(0.03, 0.03 ,0.03);
+                glScalef(0.01, 0.01 ,0.01);
                 glTranslatef(posX/(10+arruma_posX_2D), arrumaTranslateY, 0);
                 glRotatef(90, 0, 1, 0);
                 glRotatef(-30, 0, 0, 1);
@@ -1295,7 +1391,7 @@ void display() {
         }
 
         MAX_TIROS = 10;
-        glOrtho(0.0, width, yOrthoMin, yOrthoMax, 30, -30);
+
         if(vidas > 0 && !fimDoJogo){
             if(mostraPontos){
                 desenhaGameOver();
@@ -1315,17 +1411,19 @@ void display() {
         }
     }
     else{
+    gluPerspective(40.0f,(GLfloat)width/(GLfloat)height, 0.01 ,longe);
+    gluLookAt(500, yAviao-170, 250, 500, 500 + yAviao, 0 , 0, 0, 1);
+
     if(!mostraPontos && vidas >= 0){
         glPushMatrix();
-            glScalef(0.03, 0.03 ,0.03);
+            glScalef(0.5, 0.5 ,0.5);
             glTranslatef(posX/(10+arruma_posX_2D), arrumaTranslateY, 0);
             glRotatef(90, 0, 1, 0);
             glRotatef(-30, 0, 0, 1);
             aviao.DesenhaObjeto(false, 2);
         glPopMatrix();
+
     }
-        gluPerspective(40.0f,(GLfloat)width/(GLfloat)height, 0.01 ,longe);
-        gluLookAt(500, yAviao-170, 250, 500, 500 + yAviao, 0 , 0, 0, 1);
         MAX_TIROS = 15;
         if(vidas > 0 && !fimDoJogo){
             if(mostraPontos){
@@ -1359,7 +1457,6 @@ int main(int argc, char** argv) {
     srand(time(NULL));
 
     inimigos = inimigo.instanciaInimigo();
-    inimigo.leInimigo();
     aviao.LerPly("../data/obj/aviao.ply");
 
 

@@ -4,6 +4,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "Objeto.h"
+#include "glcTexture.h"
+#include "glcWavefrontObject.h"
 
 class Inimigo
 {
@@ -32,7 +34,7 @@ class Inimigo
         ~Inimigo();
 
         Inimigo* instanciaInimigo();
-        void desenhaInimigo();
+        void desenhaInimigo(int arrumaRotate2D);
         void leInimigo();
         //void checaVida(float yAviao, Inimigo inimigos[]);
         //void verificaVida(float yAviao);

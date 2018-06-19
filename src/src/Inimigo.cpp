@@ -4,9 +4,12 @@
 #define AVIAO 3       //quadrado
 #define COMBUSTIVEL 4 //retangulo 'em pé'
 #define PONTE 5       //retangulo maior
+#define NUM_OBJECTS 5
 
 static Objeto helicoptero;
 static Objeto tubarao;
+static glcTexture *textureManager = NULL;
+static glcWavefrontObject *objectManager = NULL;
 
 Inimigo::Inimigo(){
     this->raio = 10;
@@ -22,9 +25,50 @@ Inimigo::~Inimigo()
 void Inimigo::leInimigo(){
 
     helicoptero.LerPly("../data/obj/helicoptero.ply");
-
+    helicoptero.v_max.x += 35;
+    helicoptero.v_min.x += 35;
+    helicoptero.v_min.y -= 50;
+    helicoptero.v_max.y -= 50;
     tubarao.LerPly("../data/obj/tubarao.ply");
 
+    char objectFiles[NUM_OBJECTS][50] =
+    {
+        "./../data/texturedObj/littleCow.obj",
+        "./../data/texturedObj/duck.obj",
+        "./../data/texturedObj/Mi_24.obj",
+        "./../data/texturedObj/Wood_Boat.obj",
+        "./../data/texturedObj/plane.obj"
+    };
+
+    char textureFiles[NUM_OBJECTS][50] =
+    {
+        "./../data/texturedObj/littleCow.png",
+        "./../data/texturedObj/duck.png",
+        "./../data/texturedObj/L200.png",
+        "./../data/texturedObj/TextureBoat.png",
+        "./../data/texturedObj/plane.png"
+
+    };
+
+
+    textureManager = new glcTexture();
+    textureManager->SetNumberOfTextures(NUM_OBJECTS);
+    textureManager->SetWrappingMode(GL_REPEAT);
+    for(int i = 0; i < NUM_OBJECTS; i++)
+        textureManager->CreateTexture( textureFiles[i], i);
+
+    // LOAD OBJECTS
+    objectManager = new glcWavefrontObject();
+    objectManager->SetNumberOfObjects(NUM_OBJECTS);
+    for(int i = 0; i < NUM_OBJECTS; i++)
+    {
+        objectManager->SelectObject(i);
+        objectManager->ReadObject(objectFiles[i]);
+        objectManager->Unitize();
+        objectManager->FacetNormal();
+        objectManager->VertexNormals(90.0);
+        objectManager->Scale(5);
+    }
 
 }
 
@@ -907,14 +951,23 @@ void Inimigo::SetMaterial2(){
 
 
 
-void Inimigo::desenhaInimigo(){
+void Inimigo::desenhaInimigo(int arrumaRotate2D){
     if(this->vivo){
         if(this->tipo == HELICOPTERO){
              glPushMatrix();
-                //glColor3f(1, 1 ,1);
                 glTranslated(this->movimento, 0, 0);
                 glTranslated(this->x, this->y, 0);
-                helicoptero.DesenhaObjeto(false, 1);
+                helicoptero.DesenharBoundingBox();
+                glRotatef(arrumaRotate2D, 0, 1, 0);
+                glRotatef(90, 1, 0, 0);
+                glScalef(14.0, 14.0, 14.0);
+                textureManager->Bind(2);
+                objectManager->SetColor(1.0, 0.0, 0.0);
+                objectManager->SelectObject(2);
+                objectManager->SetShadingMode(SMOOTH_SHADING); // Alternative: FLAT_SHADING
+                objectManager->SetRenderMode(USE_TEXTURE);
+                objectManager->Draw();
+
                 this->maxX = helicoptero.v_max.x;
                 this->minX = helicoptero.v_min.x;
                 this->minY = helicoptero.v_min.y;
@@ -926,25 +979,33 @@ void Inimigo::desenhaInimigo(){
         if(this->tipo == SUBMARINO){
             glPushMatrix();
                 //glColor3f(1, 1 ,1);
+
                 glTranslated(this->movimento, 0, 0);
                 glTranslated(x, y, 0);
-                tubarao.DesenhaObjeto(false, 3);
+                tubarao.DesenharBoundingBox();
+                glRotatef(arrumaRotate2D, 0, 1, 0);
+                glRotatef(90, 1, 0, 0);
+                glRotatef(90, 0, 1, 0);
+                glScalef(14.0, 14.0, 14.0);
+                textureManager->Bind(3);
+                objectManager->SetColor(1.0, 0.0, 0.0);
+                objectManager->SelectObject(3);
+                objectManager->SetShadingMode(SMOOTH_SHADING); // Alternative: FLAT_SHADING
+                objectManager->SetRenderMode(USE_TEXTURE);
+                objectManager->Draw();
+
                 this->maxX = tubarao.v_max.x;
                 this->minX = tubarao.v_min.x;
                 this->minY = tubarao.v_min.y;
                 this->maxY = tubarao.v_max.y;
-//                glBegin(GL_POLYGON);
-//                    glVertex2d(this->x, this->y);
-//                    glVertex2d(this->x + this->ladoA, this->y);
-//                    glVertex2d(this->x + this->ladoA, this->y + this->ladoB);
-//                    glVertex2d(this->x, this->y + this->ladoB);
-//                glEnd();
+
             glPopMatrix();
+
         }
 
         if(this->tipo == COMBUSTIVEL){
             glPushMatrix();
-                SetMaterial();
+                //SetMaterial();
                     glBegin(GL_POLYGON);
                     glVertex3d(this->x, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y,0);
@@ -987,7 +1048,7 @@ void Inimigo::desenhaInimigo(){
 
           if(this->tipo == PONTE){
             glPushMatrix();
-                SetMaterial2();
+                //SetMaterial2();
                 glBegin(GL_POLYGON);
                     glVertex3d(this->x, this->y,0);
                     glVertex3d(this->x + this->ladoA, this->y,0);

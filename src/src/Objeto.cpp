@@ -271,22 +271,22 @@ void Objeto::DesenhaObjeto(bool wireframe, int num_objeto){
 
     switch(num_objeto){
     case 0:
-        SetMaterial();
+        //SetMaterial();
         break;
     case 1:
-        SetMaterial2();
+        //SetMaterial2();
         break;
     case 2:
-        SetMaterial3();
+        //SetMaterial3();
         break;
     case 3:
-        SetMaterial4();
+        //SetMaterial4();
         break;
     case 4:
-        SetMaterial5();
+        //SetMaterial5();
         break;
     default:
-        SetMaterial();
+        printf("1");
     }
 
     int primitiva;
@@ -348,9 +348,6 @@ void Objeto::DesenharBoundingBoxAviao(){
         glVertex3f(v_max.x-10.9, v_max.y-0.3, 0);
         glVertex3f(v_min.x-4.5, v_max.y-0.3, 0);
     glEnd();
-
-
-
 
 }
 
